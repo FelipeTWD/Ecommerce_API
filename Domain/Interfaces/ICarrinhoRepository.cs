@@ -11,6 +11,6 @@ public interface ICarrinhoRepository
 {
     void Remover(int id);
     List<Carrinho> Listar();
-    decimal CalcularTotal();
-    
+    decimal CalcularTotal(int IdCarrinho);
+
 }

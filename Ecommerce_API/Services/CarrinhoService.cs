@@ -89,9 +89,25 @@ namespace Ecommerce_API.Services
 
             }
         }
-        public decimal CalcularTotal()
+        public decimal CalcularTotal(int idCarrinho)
         {
-            return _carrinhoRepository.CalcularTotal();
+            try
+            {
+                var carrinho = _carrinhoRepository.Listar()
+                    .FirstOrDefault(c => c.IdCarrinho == idCarrinho)
+                    ?? throw new DomainException("Carrinho não encontrado para calcular o total.");
+                if (carrinho.ListaItensCarrinho == null || carrinho.ListaItensCarrinho.Count == 0)
+                    throw new DomainException("O carrinho está vazio. Não é possível calcular o total.");
+                return carrinho.CalcularTotal();
+            }
+            catch (DomainException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao calcular o total do carrinho.", ex);
+            }
         }
     }
 }

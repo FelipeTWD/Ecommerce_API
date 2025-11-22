@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ecommerce_API.Services;
 using System;
 using Domain.Helpers;
+using Domain.Entidades;
 
 namespace Ecommerce_API.Controllers
 {
@@ -40,7 +41,7 @@ namespace Ecommerce_API.Controllers
 
             }
         }
-            [HttpDelete("Remover/{id}")]
+        [HttpDelete("Remover/{id}")]
         public ActionResult Remover(int id)
         {
             try
@@ -57,11 +58,23 @@ namespace Ecommerce_API.Controllers
                 return StatusCode(500, "Erro interno do servidor.");
             }
         }
-        [HttpGet("total")]
-        public ActionResult CalcularTotal()
+        [HttpGet("{id}/CalcularTotal")]
+        public ActionResult CalcularTotal(int id)
         {
-            decimal total = _carrinhoService.CalcularTotal();
-            return Ok(total);
+            try
+            {
+                var total = _carrinhoService.CalcularTotal(id);
+                return Ok(new { IdCarrinho = id, Total = total });
+            }
+            catch (DomainException ex)
+            { //Erro precissível de domínio
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            { //Erro não precissível
+                return StatusCode(500, "Erro interno do servidor.");
+
+            }
         }
     }
 }
