@@ -5,4 +5,6 @@ public class Endereco
 
     public string Cidade { get; set; } = string.Empty;
 
+    public List<Endereco> ListaDeEnderecos { get; set; } = new();
+
 }
