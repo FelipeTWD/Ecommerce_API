@@ -15,14 +15,46 @@ public class CalcularFrete
         _clienteRepository = clienteRepository;
         _freteService = freteService;
     }
+
     public decimal Calcular(FreteDTO freteDTO)
     {
+        try
+        {// Validar o DTO de entrada
+            if (freteDTO.ListaDeEnderecos == null || freteDTO.ListaDeEnderecos.Count == 0)
+            {
+                throw new ArgumentException("Lista de endereços inválida.");
+            }
+            // Supondo que o estado de destino está em freteDTO.EstadoDestino
+            if (freteDTO.EstadoDestino != "RJ" && freteDTO.EstadoDestino != "SP" && freteDTO.EstadoDestino != "MG")
+            {
+                throw new ArgumentException("Estado de destino inválido.");
+            }
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        
         // Mapear o DTO para a entidade Cliente
         Cliente cliente = freteDTO.Mapear();
-        // Cadastrar o cliente (opcional, dependendo da lógica do negócio)
-        _clienteRepository.Cadastrar(cliente);
+        try
+        {
+            if (cliente == null || cliente.Id <= 0)
+            {
+                throw new ArgumentException("Cliente inválido.");
+            }
+            // Buscar o cliente no repositório
+            cliente = _clienteRepository.ObterClientePorId(cliente.Id);
+
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+
         // Calcular o frete usando o serviço de frete injetado
         decimal valorFrete = _freteService.CalcularFrete(cliente);
         return valorFrete;
     }
+    
 }

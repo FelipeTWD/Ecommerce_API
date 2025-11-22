@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs
 {
-    internal class PagamentoDTO
+    public class PagamentoDTO
     {
 
         public int IdPagamento { get; set; }
