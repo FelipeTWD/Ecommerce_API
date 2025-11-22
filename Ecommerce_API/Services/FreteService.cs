@@ -6,11 +6,11 @@ using Ecommerce_API.Services;
 
 namespace Ecommerce_API.Services;
 
-public class CalcularFrete
+public class FreteService
 {
     private readonly IClienteRepository _clienteRepository;
     private readonly IFrete _freteService;
-    public CalcularFrete(IClienteRepository clienteRepository, IFrete freteService)
+    public FreteService(IClienteRepository clienteRepository, IFrete freteService)
     {
         _clienteRepository = clienteRepository;
         _freteService = freteService;

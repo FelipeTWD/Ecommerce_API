@@ -56,4 +56,27 @@ public class ClientesController : ControllerBase
 
 
     }
+    [HttpGet("{id}")]
+    public ActionResult ObterClientePorId(int id)
+    {
+        try
+        {
+            var cliente = _clientesService.ObterClientePorId(id);
+            if (cliente == null)
+                return NotFound("Cliente não encontrado.");
+            return Ok(cliente);
+        }
+        catch (DomainException ex)
+        { //Erro precissível de domínio
+            return BadRequest(ex.Message);
+        }
+        catch (ArgumentException ex)
+        { //Erro precissível de argumento inválido
+            return BadRequest(ex.Message);
+        }
+        catch (Exception)
+        { //Erro não precissível
+            return StatusCode(500, "Erro interno do servidor.");
+        }
+    }
 }

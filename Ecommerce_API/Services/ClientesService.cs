@@ -61,5 +61,30 @@ public class ClientesService
             throw new Exception("Erro ao listar clientes: " + ex.Message);
         }
     }
-
+    public ClienteDTO ObterClientePorId(int id)
+    {
+        try
+        {// Buscar o cliente no repositório 
+            var cliente = _clienteRepository.ObterClientePorId(id);
+            if (cliente == null)
+            {
+                throw new DomainException("Cliente não encontrado.");
+            }
+            ClienteDTO clienteDTO = new ClienteDTO
+            {
+                Id = cliente.Id,
+                Nome = cliente.Nome,
+                Endereco = cliente.Endereco
+            };
+            return clienteDTO;
+        }
+        catch (DomainException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Erro ao obter cliente: " + ex.Message);
+        }
+    }
 }
