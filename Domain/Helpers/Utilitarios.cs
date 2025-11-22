@@ -1,4 +1,5 @@
-﻿namespace Domain.Helpers;
+﻿
+namespace Domain.Helpers;
 public static class Utilitarios
 {
     //Mostra a mensagem pulando linha

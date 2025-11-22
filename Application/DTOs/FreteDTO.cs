@@ -6,14 +6,14 @@ namespace Application.DTOs;
 
 public class FreteDTO
 {
-    public string CepOrigem { get; set; } = string.Empty;
+    public string EstadoOrigem { get; set; } = string.Empty;
 
-    public string CepDestino { get; set; } = string.Empty;
+    public string EstadoDestino { get; set; } = string.Empty;
     public Cliente Mapear()
     {
         return new Cliente
         {
-            Endereco = this.CepDestino
+            Endereco = this.EstadoDestino,
 
         };
     }

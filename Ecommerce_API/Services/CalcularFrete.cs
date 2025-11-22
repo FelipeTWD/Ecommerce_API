@@ -6,26 +6,23 @@ using Ecommerce_API.Services;
 
 namespace Ecommerce_API.Services;
 
-///*public class CalcularFrete
-//{
-
-//    public decimal Calcular(int CepDestino, int CepOrigem = 25
-//    {
-//        int distancia = Math.Abs(CepDestino - CepOrigem);
-//        if (distancia <= 5)
-//        {
-//            return 10.00m;
-//        }
-//        else if (distancia > 5 && distancia <= 20)
-//        {
-//            return 20.00m;
-//        }
-//        else
-//        {
-//            return 0.00m;
-//        }
-//    }
-///}
-//    //se a distancia for menor que 5km, o frete é R$10,00
-//    //se a distancia for entre 5km e 20km, o frete é R$20,00
-//    // se a distancia for igual ou menor que 5km, nao a frete
+public class CalcularFrete
+{
+    private readonly IClienteRepository _clienteRepository;
+    private readonly IFrete _freteService;
+    public CalcularFrete(IClienteRepository clienteRepository, IFrete freteService)
+    {
+        _clienteRepository = clienteRepository;
+        _freteService = freteService;
+    }
+    public decimal Calcular(FreteDTO freteDTO)
+    {
+        // Mapear o DTO para a entidade Cliente
+        Cliente cliente = freteDTO.Mapear();
+        // Cadastrar o cliente (opcional, dependendo da lógica do negócio)
+        _clienteRepository.Cadastrar(cliente);
+        // Calcular o frete usando o serviço de frete injetado
+        decimal valorFrete = _freteService.CalcularFrete(cliente);
+        return valorFrete;
+    }
+}

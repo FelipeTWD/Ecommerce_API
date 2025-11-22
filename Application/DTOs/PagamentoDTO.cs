@@ -8,7 +8,8 @@ namespace Application.DTOs
 {
     internal class PagamentoDTO
     {
-        public int idPagamento { get; set; }
+
+        public int IdPagamento { get; set; }
 
 
     }
