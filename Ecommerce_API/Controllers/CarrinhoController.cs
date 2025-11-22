@@ -21,7 +21,7 @@ namespace Ecommerce_API.Controllers
         public ActionResult Listar()
         {
             try
-            {
+            {// Chama o serviço para listar os carrinhos
                 var carrinhos = _carrinhoService.Listar();
                 if (carrinhos == null || carrinhos.Count == 0)
                     return NotFound("Nenhum carrinho encontrado.");
@@ -45,7 +45,7 @@ namespace Ecommerce_API.Controllers
         public ActionResult Remover(int id)
         {
             try
-            {
+            {// Verifica se o carrinho existe antes de tentar removê-lo
                 _carrinhoService.Remover(id);
                 return Ok("Carrinho removido com sucesso.");
             }

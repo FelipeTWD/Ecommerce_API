@@ -33,7 +33,7 @@ public class ClientesController : ControllerBase
     public ActionResult Listar()
     {
         try
-        {
+        {//Código que pode gerar exceções
             var clientes = _clientesService.Listar();
             if (clientes == null || clientes.Count == 0)
                 return NotFound("Nenhum cliente encontrado.");
