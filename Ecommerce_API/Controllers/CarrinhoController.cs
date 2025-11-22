@@ -2,6 +2,8 @@
 using Application.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce_API.Services;
+using System;
+using Domain.Helpers;
 
 namespace Ecommerce_API.Controllers
 {
@@ -20,15 +22,15 @@ namespace Ecommerce_API.Controllers
             try
             {
                 var carrinhos = _carrinhoService.Listar();
-                if (carrinhos == null || carrinhos.count == 0)
+                if (carrinhos == null || carrinhos.Count == 0)
                     return NotFound("Nenhum carrinho encontrado.");
                 return Ok(carrinhos);
             }
-            catch (DomainExcpetion ex)
+            catch (DomainException ex)
             { //Erro precissível de domínio
                 return BadRequest(ex.Message);
             }
-            catch (ArgumentExcpetion ex)
+            catch (ArgumentException ex)
             { //Erro precissível de argumento inválido
                 return BadRequest(ex.Message);
             }

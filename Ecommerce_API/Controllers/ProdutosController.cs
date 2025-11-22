@@ -1,6 +1,8 @@
 ﻿using Application.DTOs;
 using Ecommerce_API.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using Domain.Helpers;
 
 namespace Ecommerce_API.Controllers;
 
@@ -20,7 +22,7 @@ public class ProdutosController : ControllerBase
     {
         try
         {
-            _produtosServiceIncluir(produtoDTO);
+            _produtosService.Incluir(produtoDTO);
             return Ok("Produto incluído com sucesso.");
         }
         catch (ArgumentException ex)
@@ -43,13 +45,13 @@ public class ProdutosController : ControllerBase
         try
         {
             var produtos = _produtosService.Listar();
-            if (produtos == null || produtos.count == 0)
+            if (produtos == null || produtos.Count == 0)
                 return NotFound("Nenhum produto encontrado.");
             return Ok(produtos);
         }
         catch (DomainException ex)
         {
-            return Notfound(ex.Message); // Erro precissível de domínio
+            return NotFound(ex.Message); // Erro precissível de domínio
         }
         catch (Exception)
         {

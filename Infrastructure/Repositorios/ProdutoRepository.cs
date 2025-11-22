@@ -14,13 +14,14 @@ public class ProdutoRepository : IProdutoRepository
     {
         return BancoSql.ListaProdutos.ToList();
     }
-    public void Remover(int id)
+    public bool Remover(int id)
     {
         var produto = BancoSql.ListaProdutos.FirstOrDefault(p => p.Id == id);
         if (produto != null)
         {
             BancoSql.ListaProdutos.Remove(produto);
         }
+        return true;
     }
     public void AtualizarEstoque(int produtoId, int quantidade)
     {

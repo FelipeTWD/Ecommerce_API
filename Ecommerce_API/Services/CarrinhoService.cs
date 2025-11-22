@@ -1,6 +1,10 @@
 ﻿using Application.DTOs;
 using Domain.Entidades;
 using Domain.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Domain.Helpers;
 
 
 namespace Ecommerce_API.Services

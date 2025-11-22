@@ -1,6 +1,7 @@
 ﻿using Application.DTOs;
 using Domain.Entidades;
 using Domain.Interfaces;
+using Domain.Helpers;
 
 namespace Ecommerce_API.Services;
 
@@ -51,7 +52,7 @@ public class ProdutosService
                 ?? throw new DomainException("Nenhum produto foi encontrado.");
             if (listaProdutos.Count == 0)
                 throw new DomainException("Nenhum produto disponível para listar.");
-            Listar<ProdutoDTO> listaProdutosDTO = new List<ProdutoDTO>();
+            List<ProdutoDTO> listaProdutosDTO = new List<ProdutoDTO>();
             foreach (var produto in listaProdutos)
             {
                 if (produto == null)
@@ -59,8 +60,8 @@ public class ProdutosService
                 // Mapear Produto para ProdutoDTO
                 listaProdutosDTO.Add(new ProdutoDTO
                 {
-                    id = produto.Id,
-                    nome = produto.nome,
+                    Id = produto.Id,
+                    Nome = produto.Nome,
                 });
             }
             return listaProdutosDTO;
@@ -107,10 +108,11 @@ public class ProdutosService
                 throw new ArgumentException("Id do produto inválido.");
             if (quantidade < 0)
                 throw new ArgumentException("Quantidade não pode ser negativa.");
-            var produto = _produtoRepository.ObterPorId(produtoId)
+            var produto = _produtoRepository.Listar()
+                .FirstOrDefault(p => p.Id == produtoId)
                 ?? throw new DomainException("Produto não encontrado.");
             // regra de negócio: atualizar o estoque
-            produto.Estoque += quantidade;
+            produto.Quantidade = quantidade;
             _produtoRepository.AtualizarEstoque(produtoId, quantidade);
         }
         catch (DomainException)
