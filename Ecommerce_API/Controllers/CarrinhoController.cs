@@ -34,16 +34,28 @@ namespace Ecommerce_API.Controllers
             { //Erro precissível de argumento inválido
                 return BadRequest(ex.Message);
             }
-            catch (Exception ex)
+            catch (Exception)
             { //Erro não precissível
                 return StatusCode(500, "Erro interno do servidor.");
 
             }
         }
-            [HttpDelete("{id}")]
+            [HttpDelete("Remover/{id}")]
         public ActionResult Remover(int id)
-        {             _carrinhoService.Remover(id);
-            return Ok();
+        {
+            try
+            {
+                _carrinhoService.Remover(id);
+                return Ok("Carrinho removido com sucesso.");
+            }
+            catch (DomainException ex)
+            { //Erro precissível de domínio
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            { //Erro não precissível
+                return StatusCode(500, "Erro interno do servidor.");
+            }
         }
         [HttpGet("total")]
         public ActionResult CalcularTotal()

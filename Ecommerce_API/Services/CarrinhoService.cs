@@ -72,7 +72,22 @@ namespace Ecommerce_API.Services
         }
         public void Remover(int id)
         {
-            _carrinhoRepository.Remover(id);
+            try
+            {
+                if (id < 0)
+                    throw new DomainException("ID do carrinho inválido.");
+                _carrinhoRepository.Remover(id);
+            }
+            catch (DomainException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao remover o carrinho.", ex);
+
+
+            }
         }
         public decimal CalcularTotal()
         {
