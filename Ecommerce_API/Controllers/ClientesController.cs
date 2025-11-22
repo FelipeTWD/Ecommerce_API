@@ -2,6 +2,7 @@
 using Application.DTOs;
 using Ecommerce_API.Services;
 using Microsoft.AspNetCore.Mvc;
+using Domain.Helpers;
 
 
 
@@ -31,8 +32,28 @@ public class ClientesController : ControllerBase
     [HttpGet]
     public ActionResult Listar()
     {
+        try
+        {
+            var clientes = _clientesService.Listar();
+            if (clientes == null || clientes.Count == 0)
+                return NotFound("Nenhum cliente encontrado.");
+            return Ok(clientes);
 
-        return Ok(_clientesService.Listar());
+        }
+        catch (DomainException ex)
+        { //Erro precissível de domínio
+            return BadRequest(ex.Message);
+        }
+        catch (ArgumentException ex)
+        { //Erro precissível de argumento inválido
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        { //Erro não precissível
+            return StatusCode(500, "Erro interno do servidor.");
+        }
+
+
 
     }
 }

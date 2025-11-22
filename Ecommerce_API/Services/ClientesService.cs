@@ -1,5 +1,6 @@
 ﻿using Application.DTOs;
 using Domain.Entidades;
+using Domain.Helpers;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,14 +21,45 @@ public class ClientesService
     }
     public List<ClienteDTO> Listar()
     {
-        List<Cliente> listaClientes = _clienteRepository.Listar();
-        List<ClienteDTO> listaClientesDTO = new List<ClienteDTO>();
-        foreach (Cliente cliente in listaClientes)
+        try
         {
-            ClienteDTO dto = new ClienteDTO { Id = cliente.Id, Nome = cliente.Nome, Endereco = cliente.Endereco };
-            listaClientesDTO.Add(dto);
+            var clientes = _clienteRepository.Listar();
+            List<ClienteDTO> clientesDTO = new List<ClienteDTO>();
+            foreach (var cliente in clientes)
+            {
+ 
+                if (cliente == null)
+                {
+                    throw new DomainException("Cliente não encontrado.");
+                }
+                if (cliente.Endereco == null)
+                {
+                    throw new ArgumentException("Endereço do cliente não encontrado.");
+                }
+
+                ClienteDTO clienteDTO = new ClienteDTO
+                {
+                    Id = cliente.Id,
+                    Nome = cliente.Nome,
+                    Endereco = cliente.Endereco
+                };
+                clientesDTO.Add(clienteDTO);
+                
+            }
+            return clientesDTO;
         }
-        return listaClientesDTO;
+        catch (DomainException)
+        {
+            throw;
+        }
+        catch (ArgumentException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Erro ao listar clientes: " + ex.Message);
+        }
     }
 
 }
