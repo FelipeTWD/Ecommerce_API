@@ -48,7 +48,7 @@ public class ClientesController : ControllerBase
         { //Erro precissível de argumento inválido
             return BadRequest(ex.Message);
         }
-        catch (Exception ex)
+        catch (Exception)
         { //Erro não precissível
             return StatusCode(500, "Erro interno do servidor.");
         }
