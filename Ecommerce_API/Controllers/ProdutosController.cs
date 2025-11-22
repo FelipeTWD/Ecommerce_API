@@ -21,7 +21,7 @@ public class ProdutosController : ControllerBase
     public ActionResult Incluir([FromBody] ProdutoDTO produtoDTO)
     {
         try
-        {
+        {// Chama o serviço para incluir o produto
             _produtosService.Incluir(produtoDTO);
             return Ok("Produto incluído com sucesso.");
         }
@@ -43,7 +43,7 @@ public class ProdutosController : ControllerBase
     public ActionResult Listar()
     {
         try
-        {
+        {// Chama o serviço para listar os produtos
             var produtos = _produtosService.Listar();
             if (produtos == null || produtos.Count == 0)
                 return NotFound("Nenhum produto encontrado.");
@@ -63,7 +63,7 @@ public class ProdutosController : ControllerBase
     public ActionResult Remover(int id)
     {
         try
-        {
+        {// Verifica se o produto existe antes de tentar removê-lo
             _produtosService.Remover(id);
             return Ok("Produto removido com sucesso.");
         }
@@ -84,7 +84,7 @@ public class ProdutosController : ControllerBase
     public ActionResult AtualizarEstoque(int produtoId, [FromQuery] int quantidade)
     {
         try
-        {
+        {// Chama o serviço para atualizar o estoque do produto
             _produtosService.AtualizarEstoque(produtoId, quantidade);
             return Ok("Estoque atualizado com sucesso.");
         }

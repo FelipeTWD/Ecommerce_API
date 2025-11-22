@@ -14,7 +14,7 @@ namespace Ecommerce_API.Controllers
         }
         [HttpGet("Imprimir SubTotal")]
         public ActionResult<decimal> ImprimirSubTotal(ItemCarrinhoDTO itemCarrinhoDTO)
-        {
+        {// Retorna o subtotal do item do carrinho
             return Ok(itemCarrinhoDTO.SubTotal);
         }
     }
