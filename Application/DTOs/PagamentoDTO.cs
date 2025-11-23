@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Entidades;
+namespace Application.DTOs;
 
-namespace Application.DTOs
+public class PagamentoDTO
 {
-    public class PagamentoDTO
+
+    public decimal Valor { get; set; }
+    public int IdPagamento { get; set; }
+    public Pagamento Mapear()
     {
-
-        public int IdPagamento { get; set; }
-
-
+        return new Pagamento
+        {
+            IdPagamento = this.IdPagamento,
+            Valor = this.Valor,
+        };
     }
 }
+    
