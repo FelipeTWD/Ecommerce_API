@@ -15,4 +15,8 @@ public class ClienteRepository : IClienteRepository
     {
         return BancoSql.ListaClientes.ToList();
     }
+    public Cliente ObterClientePorId(int id)
+    {
+        return BancoSql.ListaClientes.FirstOrDefault(c => c.Id == id);
+    }
 }
