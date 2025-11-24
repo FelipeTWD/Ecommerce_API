@@ -14,7 +14,7 @@ public class FreteDTO
     {
         return new Cliente
         {
-            Endereco = this.EstadoDestino,
+            EnderecoCliente = this.EstadoDestino,
 
         };
     }

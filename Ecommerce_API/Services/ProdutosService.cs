@@ -100,7 +100,9 @@ public class ProdutosService
             throw new Exception("Erro ao remover o produto.", ex);
         }
     }
-    public void AtualizarEstoque(int produtoId, int quantidade)
+
+
+    public void AtualizarQuantidade(int produtoId, int quantidade)
     {
         try
         {
@@ -113,7 +115,7 @@ public class ProdutosService
                 ?? throw new DomainException("Produto não encontrado.");
             // regra de negócio: atualizar o estoque
             produto.Quantidade = quantidade;
-            _produtoRepository.AtualizarEstoque(produtoId, quantidade);
+            _produtoRepository.AtualizarQuantidade(produtoId, quantidade);
         }
         catch (DomainException)
         {

@@ -9,6 +9,5 @@ public interface IProdutoRepository
 
     bool Remover(int id);
 
-    void AtualizarEstoque(int produtoId, int quantidade);
-
+    void AtualizarQuantidade(int produtoId, int quantidade);
 }

@@ -23,7 +23,7 @@ public class ProdutoRepository : IProdutoRepository
         }
         return true;
     }
-    public void AtualizarEstoque(int produtoId, int quantidade)
+    public void Atualizar(int produtoId, int quantidade)
     {
         var produto = BancoSql.ListaProdutos.FirstOrDefault(p => p.Id == produtoId);
         if (produto != null)

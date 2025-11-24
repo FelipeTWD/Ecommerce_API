@@ -58,7 +58,7 @@ public class ProdutosController : ControllerBase
             return StatusCode(500, "Erro interno do servidor."); // Erro não precissível
         }
     }
-    [HttpDelete("remover/{id:int}")]
+    [HttpDelete("Remover/{id:int}")]
 
     public ActionResult Remover(int id)
     {
@@ -80,12 +80,13 @@ public class ProdutosController : ControllerBase
             return StatusCode(500, $"Erro ao remover o produto: {ex.Message}");
         }
     }
-    [HttpPut("AtualizarEstoque/{produtoId:int}/{quantidade:int}")]
-    public ActionResult AtualizarEstoque(int produtoId, [FromQuery] int quantidade)
+    [HttpPut("Atualizar/{produtoId:int}/{quantidade:int}")]
+
+    public ActionResult AtualizarQuantidade(int produtoId, [FromQuery] int quantidade)
     {
         try
         {// Chama o serviço para atualizar o estoque do produto
-            _produtosService.AtualizarEstoque(produtoId, quantidade);
+            _produtosService.AtualizarQuantidade(produtoId, quantidade);
             return Ok("Estoque atualizado com sucesso.");
         }
         catch (ArgumentException ex)
