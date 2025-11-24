@@ -7,5 +7,5 @@ public class Cliente
     public string Email { get; set; } = string.Empty;
     public string Senha { get; set; } = string.Empty;
     public Endereco EnderecoCliente { get; set; } = new();
-    public  string Endereco { get; set; }
+    //public  string Endereco { get; set; }
 }
