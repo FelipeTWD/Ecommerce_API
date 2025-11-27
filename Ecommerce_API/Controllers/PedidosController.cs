@@ -33,7 +33,7 @@ public class PedidosController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    [HttpGet]
+    [HttpGet("Listar")]
     public ActionResult Listar()
     {
         try
@@ -51,7 +51,7 @@ public class PedidosController : ControllerBase
             return StatusCode(500, "Erro interno do servidor.");
         }
     }
-    [HttpDelete("{id}")]
+    [HttpDelete("Remover/{id}")]
     public ActionResult Remover(int id)
     {
         try
