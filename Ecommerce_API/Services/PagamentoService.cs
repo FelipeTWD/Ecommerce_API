@@ -40,7 +40,7 @@ public class PagamentoService
             Valor = valor,
             Parcelas = Parcelas
         };
-        Print("Pagamento via Cartão selecionado.");
+        Console.WriteLine("Pagamento via Cartão selecionado.");
         if ( Parcelas > 1)
         {
             pagamento.Valor += pagamento.Valor * 0.10m; // Adiciona 10% de taxa para 2 ou mais parcelas
