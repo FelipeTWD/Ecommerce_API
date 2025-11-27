@@ -1,4 +1,5 @@
-﻿using Application.DTOs;
+﻿using Domain.Helpers;
+using Application.DTOs;
 using Domain.Entidades;
 using Domain.Interfaces;
 using Ecommerce_API.Services;
@@ -6,94 +7,48 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Ecommerce_API.Services;
 
-public class PagamentoService
+public class PagamentoService 
 {
     private readonly IPagamento _pagamentoRepository;
     public PagamentoService(IPagamento pagamentoRepository)
     {
         _pagamentoRepository = pagamentoRepository;
     }
-    public void ProcessarPagamento(PagamentoDTO pagamentoDTO)
+
+    public void SalvarPagamento(Pagamento pagamento)
     {
         try
         {
-            // Mapear o DTO para a entidade Pagamento
-            Pagamento pagamento = pagamentoDTO.Mapear();
             if (pagamento == null || pagamento.Valor <= 0)
             {
                 throw new ArgumentException("Pagamento inválido.");
             }
-            // Salvar o pagamento no repositório
+        }
+        catch (ArgumentException ex)
+        {
+            throw new("Erro ao processar o Pagamento:" + ex.Message);
+        }
+        finally
+        {
             _pagamentoRepository.SalvarPagamento(pagamento);
         }
-        catch (Exception)
-        {
-            throw;
-        }
     }
-    public decimal PagamentoViaBoleto(decimal valor)
+    public decimal PagamentoViaCartao(decimal valor, int Parcelas, DateTime Vencimento)
     {
-        try
+        IPagamento pagamento = new PagamentoViaCartao
         {
-
-            if (_pagamentoRepository.GetType().Name != "PagamentoViaBoleto")
-            {
-                throw new InvalidOperationException("O repositório de pagamento não suporta pagamento via boleto.");
-            }
-            if (valor <= 0)
-            {
-                throw new ArgumentException("Valor do pagamento inválido.");
-            }
-            // Lógica específica para pagamento via boleto
-            decimal taxaBoleto = 2.5m; // Exemplo de taxa fixa
-            return valor + taxaBoleto;
+            Valor = valor,
+            Parcelas = Parcelas
+        };
+        Print("Pagamento via Cartão selecionado.");
+        if ( Parcelas > 1)
+        {
+            pagamento.Valor += pagamento.Valor * 0.10m; // Adiciona 10% de taxa para 2 ou mais parcelas
         }
-        catch (Exception)
+        else if (Parcelas == 1)
         {
-            throw;
+            return pagamento.Valor; 
         }
     }
-    public decimal PagamentoViaPix(decimal valor)
-    {
-        try 
-        { 
-
-            if (_pagamentoRepository.GetType().Name != "PagamentoViaPix")
-            {
-                throw new InvalidOperationException("O repositório de pagamento não suporta pagamento via Pix.");
-            }
-            if (valor <= 0)
-            {
-                throw new ArgumentException("Valor do pagamento inválido.");
-            }
-            // Lógica específica para pagamento via Pix
-            decimal descontoPix = 1.0m; // Exemplo de desconto fixo
-            return valor - descontoPix;
-        }
-        catch (Exception)
-        {
-            throw;
-        }
-    }
-    public decimal PagamentoViaCartao(decimal valor)
-    {
-        try
-        {
-            if (_pagamentoRepository.GetType().Name != "PagamentoViaCartao")
-            {
-                throw new InvalidOperationException("O repositório de pagamento não suporta pagamento via cartão.");
-            }
-            if (valor <= 0)
-            {
-                throw new ArgumentException("Valor do pagamento inválido.");
-            }
-            // Lógica específica para pagamento via cartão
-            decimal taxaCartao = valor * 0.03m; // Exemplo de taxa percentual
-            return valor + taxaCartao;
-        }
-        catch (Exception)
-        {
-            throw;
-        }
-    }
+//pagamento.Valor;
 }

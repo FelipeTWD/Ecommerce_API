@@ -9,19 +9,19 @@ namespace Domain.Interfaces
 {
     public interface IPagamento
     {
-        DateTime Vencimento { get; set; }
         decimal Valor { get; set; }
 
-        void SalvarPagamento(Pagamento pagamento);
+        bool SalvarPagamento(Pagamento pagamento);
     }
     public class PagamentoViaCartao : IPagamento
     {
-        public DateTime Vencimento { get; set; }
+        public DateTime Vencimento { get; set; } = DateTime.Now;
         public decimal Valor { get; set; }
+        public int Parcelas { get; set; }
 
-        void IPagamento.SalvarPagamento(Pagamento pagamento)
+        bool IPagamento.SalvarPagamento(Pagamento pagamento)
         {
-            throw new NotImplementedException();
+          return true;
         }
     }
     public class PagamentoViaPix : IPagamento
