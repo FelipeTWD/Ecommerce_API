@@ -1,18 +1,30 @@
 using Domain.Interfaces;
 using Ecommerce_API.Services;
 using Infrastructure.Repositorios;
+using Microsoft.Extensions.DependencyInjection;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+string caminhoBase = builder.Environment.ContentRootPath;
+string caminhoJson = Path.Combine(caminhoBase, "App_Data", "produtos.json");
+
+// Garante que a pasta existe
+string? pastaJson = Path.GetDirectoryName(caminhoJson);
+if (!string.IsNullOrEmpty(pastaJson))
+{
+    Directory.CreateDirectory(pastaJson);
+}
 
 // Add services to the container.
 builder.Services.AddScoped<ProdutosService>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
+builder.Services.AddScoped<IProdutoRepositoryJson, ProdutoRepositoryJson>(provider => new ProdutoRepositoryJson(caminhoJson));
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

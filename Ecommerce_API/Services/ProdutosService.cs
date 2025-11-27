@@ -7,64 +7,46 @@ namespace Ecommerce_API.Services;
 
 public class ProdutosService
 {
-    private IProdutoRepository _produtoRepository;
+    private readonly IProdutoRepository _produtoRepository;
+    private readonly IProdutoRepositoryJson _produtoRepositoryJson;
 
-    public ProdutosService(IProdutoRepository produtoRepository)
+    public ProdutosService(IProdutoRepository produtoRepository, IProdutoRepositoryJson produtoRepositoryJson)
     {
         _produtoRepository = produtoRepository;
+        _produtoRepositoryJson = produtoRepositoryJson;
     }
-    public void Incluir(ProdutoDTO produtoDTO)
+
+    public void Incluir(Produto produto)
+    {
+        if (IsProdutoInvalido(produto))
+            throw new ArgumentException("Todos os dados do produto devem ser devidamente preenchidos!!!");
+        _produtoRepository.Incluir(produto);
+        _produtoRepositoryJson.SalvarNoArquivo();
+    }
+
+    public List<Produto> Listar()
     {
         try
         {
-            if (produtoDTO == null)
-                throw new ArgumentException("Os dados do produto não podem ser nulos.");
-            Produto produto = produtoDTO.Mapear();
-            if (produto == null)
-                throw new ArgumentException("Falha ao mapear os dados do produto.");
-            _produtoRepository.Incluir(produto);
-
-        }
-        catch (DomainException)
-        {
-            // Repassa a exceção de domínio para o controller tratar
-            throw;
-
-        }
-        catch (ArgumentException)
-        {
-            // Repassa a exceção de argumento para o controller tratar
-            throw;
-        }
-        catch (Exception ex)
-        {
-            // Qualquer erro inesperado é encapsulado
-            throw new Exception("Erro ao incluir o produto.", ex);
-        }
-    }
-
-
-    public List<ProdutoDTO> Listar()
-    {
-        try
-        {
-            var listaProdutos = _produtoRepository.Listar()
+            List<Produto> listaProdutos = _produtoRepository.Listar()
                 ?? throw new DomainException("Nenhum produto foi encontrado.");
             if (listaProdutos.Count == 0)
                 throw new DomainException("Nenhum produto disponível para listar.");
-            List<ProdutoDTO> listaProdutosDTO = new List<ProdutoDTO>();
-            foreach (var produto in listaProdutos)
-            {
-                if (produto == null)
-                    throw new DomainException("Produto inválido encontrado na coleção.");
-                // Mapear Produto para ProdutoDTO
-                listaProdutosDTO.Add(new ProdutoDTO
-                {
-                    Id = produto.Id,
-                    Nome = produto.Nome,
-                });
-            }
-            return listaProdutosDTO;
+            //List<ProdutoDTO> listaProdutosDTO = new List<ProdutoDTO>();
+            //foreach (var produto in listaProdutos)
+            //{
+            //    if (produto == null)
+            //        throw new DomainException("Produto inválido encontrado na coleção.");
+            //    // Mapear Produto para ProdutoDTO
+            //    listaProdutosDTO.Add(new ProdutoDTO
+            //    {
+            //        Id = produto.Id,
+            //        Nome = produto.Nome,
+            //    });
+            //}
+            //return listaProdutosDTO;
+
+            return listaProdutos;
         }
         catch (DomainException)
         {
@@ -86,6 +68,8 @@ public class ProdutosService
             bool removido = _produtoRepository.Remover(id);
             if (!removido)
                 throw new DomainException("Produto não encontrado para remoção.");
+            else
+                _produtoRepositoryJson.SalvarNoArquivo();
         }
         catch (DomainException)
         {
@@ -110,12 +94,13 @@ public class ProdutosService
                 throw new ArgumentException("Id do produto inválido.");
             if (quantidade < 0)
                 throw new ArgumentException("Quantidade não pode ser negativa.");
-            var produto = _produtoRepository.Listar()
+            Produto produto = _produtoRepository.Listar()
                 .FirstOrDefault(p => p.Id == produtoId)
                 ?? throw new DomainException("Produto não encontrado.");
             // regra de negócio: atualizar o estoque
             produto.Quantidade = quantidade;
             _produtoRepository.AtualizarQuantidade(produtoId, quantidade);
+            _produtoRepositoryJson.SalvarNoArquivo();
         }
         catch (DomainException)
         {
@@ -129,5 +114,12 @@ public class ProdutosService
         {
             throw new Exception("Erro ao atualizar o estoque do produto.", ex);
         }
+    }
+
+    private bool IsProdutoInvalido(Produto produto)
+    {
+        if (string.IsNullOrWhiteSpace(produto.Nome) || produto.Preco == 0 || produto.Id == 0 || produto.Quantidade == 0)
+            return true;
+        return false;
     }
 }

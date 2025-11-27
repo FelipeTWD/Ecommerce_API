@@ -7,6 +7,7 @@ public class ClienteDTO
     public int Id { get; set; }
     public string Nome { get; set; } = string.Empty;
     public Endereco EnderecoCliente { get; set; } = new();
+    public string Endereco { get; set; }
 
     public Cliente Mapear()
     {

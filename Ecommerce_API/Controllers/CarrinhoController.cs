@@ -22,7 +22,7 @@ namespace Ecommerce_API.Controllers
         {
             try
             {// Chama o serviço para listar os carrinhos
-                var carrinhos = _carrinhoService.Listar();
+                List<CarrinhoDTO> carrinhos = _carrinhoService.Listar();
                 if (carrinhos == null || carrinhos.Count == 0)
                     return NotFound("Nenhum carrinho encontrado.");
                 return Ok(carrinhos);

@@ -1,8 +1,8 @@
 ﻿using Application.DTOs;
 using Ecommerce_API.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using Domain.Helpers;
+using Domain.Entidades;
 
 namespace Ecommerce_API.Controllers;
 
@@ -17,21 +17,17 @@ public class ProdutosController : ControllerBase
         _produtosService = produtosService;
     }
 
-    [HttpPost("incluir")]
-    public ActionResult Incluir([FromBody] ProdutoDTO produtoDTO)
+    [HttpPost("Incluir")]
+    public ActionResult Incluir([FromBody] Produto produto)
     {
         try
         {// Chama o serviço para incluir o produto
-            _produtosService.Incluir(produtoDTO);
+            _produtosService.Incluir(produto);
             return Ok("Produto incluído com sucesso.");
         }
         catch (ArgumentException ex)
         {
-            return BadRequest(ex.Message);
-        }
-        catch (DomainException ex)
-        {
-            return BadRequest(ex.Message);
+            return BadRequest($"Erro ao incluir o produto: {ex.Message}");
         }
         catch (Exception ex)
         {
@@ -39,12 +35,12 @@ public class ProdutosController : ControllerBase
         }
     }
 
-    [HttpGet("listar")]
+    [HttpGet("Listar")]
     public ActionResult Listar()
     {
         try
         {// Chama o serviço para listar os produtos
-            var produtos = _produtosService.Listar();
+            List<Produto> produtos = _produtosService.Listar();
             if (produtos == null || produtos.Count == 0)
                 return NotFound("Nenhum produto encontrado.");
             return Ok(produtos);
@@ -80,9 +76,9 @@ public class ProdutosController : ControllerBase
             return StatusCode(500, $"Erro ao remover o produto: {ex.Message}");
         }
     }
-    [HttpPut("Atualizar/{produtoId:int}/{quantidade:int}")]
+    [HttpPut("AtualizarQuantidade/{produtoId:int}/{quantidade:int}")]
 
-    public ActionResult AtualizarQuantidade(int produtoId, [FromQuery] int quantidade)
+    public ActionResult AtualizarQuantidade(int produtoId, int quantidade)
     {
         try
         {// Chama o serviço para atualizar o estoque do produto
