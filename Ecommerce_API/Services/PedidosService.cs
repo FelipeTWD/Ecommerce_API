@@ -51,7 +51,7 @@ public class PedidosService
             if (!_pedidoRepository.Listar().Any())
                 throw new DomainException("Nenhum pedido encontrado.");
 
-            var pedidos = _pedidoRepository.Listar();
+            List<Pedido> pedidos = _pedidoRepository.Listar();
             return pedidos.Select(pedido => new PedidoDTO
             {
                 IdPedido = pedido.IdPedido,
