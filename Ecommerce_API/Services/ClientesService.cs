@@ -48,13 +48,13 @@ public class ClientesService
             }
             return clientesDTO;
         }
-        catch (DomainException)
+        catch (DomainException ex)
         {
-            throw;
+            throw new DomainException("Realmente não há o clientes: " + ex.Message);
         }
-        catch (ArgumentException)
+        catch (ArgumentException ex)
         {
-            throw;
+            throw new ArgumentException("Erro ao carregar o endereço do clientes: " + ex.Message);
         }
         catch (Exception ex)
         {
@@ -78,13 +78,10 @@ public class ClientesService
             };
             return clienteDTO;
         }
-        catch (DomainException)
+
+        catch (DomainException ex)
         {
-            throw;
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("Erro ao obter cliente: " + ex.Message);
+            throw new DomainException("Cliente Inesistente: " + ex.Message);
         }
     }
 }
