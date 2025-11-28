@@ -56,5 +56,4 @@ public class FreteService
         decimal valorFrete = _freteService.CalcularFrete(cliente);
         return valorFrete;
     }
-    
 }

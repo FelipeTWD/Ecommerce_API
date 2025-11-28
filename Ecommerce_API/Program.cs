@@ -15,7 +15,7 @@ if (!string.IsNullOrEmpty(pastaJson))
     Directory.CreateDirectory(pastaJson);
 }
 
-// Add services to the container.
+// adicionar serviços ao contêiner.
 builder.Services.AddScoped<ProdutosService>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IProdutoRepositoryJson, ProdutoRepositoryJson>(provider => new ProdutoRepositoryJson(caminhoJson));
@@ -26,7 +26,7 @@ builder.Services.AddOpenApi();
 
 WebApplication app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// configurar o pipeline de solicitação HTTP.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
