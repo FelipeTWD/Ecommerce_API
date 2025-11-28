@@ -25,7 +25,7 @@ public class ClientesService
         {
             List<Cliente> clientes = _clienteRepository.Listar();
             List<ClienteDTO> clientesDTO = new List<ClienteDTO>();
-            foreach (var cliente in clientes)
+            foreach (Cliente cliente in clientes)
             {
  
                 if (cliente == null)
