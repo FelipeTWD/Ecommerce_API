@@ -48,10 +48,10 @@ public class ProdutosService
 
             return listaProdutos;
         }
-        catch (DomainException)
+        catch (DomainException ex)
         {
-            // Repassa a exceção de domínio para o controller tratar
-            throw;
+            // Erros de domínio são relançados
+            throw new("Id do produto não encontrado", ex);
         }
         catch (Exception ex)
         {
@@ -70,14 +70,6 @@ public class ProdutosService
                 throw new DomainException("Produto não encontrado para remoção.");
             else
                 _produtoRepositoryJson.SalvarNoArquivo();
-        }
-        catch (DomainException)
-        {
-            throw; 
-        }
-        catch (ArgumentException)
-        {
-            throw; 
         }
         catch (Exception ex)
         {
@@ -101,14 +93,6 @@ public class ProdutosService
             produto.Quantidade = quantidade;
             _produtoRepository.AtualizarQuantidade(produtoId, quantidade);
             _produtoRepositoryJson.SalvarNoArquivo();
-        }
-        catch (DomainException)
-        {
-            throw; 
-        }
-        catch (ArgumentException)
-        {
-            throw; 
         }
         catch (Exception ex)
         {
