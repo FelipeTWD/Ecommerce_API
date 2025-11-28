@@ -23,7 +23,7 @@ public class ClientesService
     {
         try
         {
-            var clientes = _clienteRepository.Listar();
+            List<Cliente> clientes = _clienteRepository.Listar();
             List<ClienteDTO> clientesDTO = new List<ClienteDTO>();
             foreach (var cliente in clientes)
             {
@@ -65,7 +65,7 @@ public class ClientesService
     {
         try
         {// Buscar o cliente no repositório 
-            var cliente = _clienteRepository.ObterClientePorId(id);
+            Cliente cliente = _clienteRepository.ObterClientePorId(id);
             if (cliente == null)
             {
                 throw new DomainException("Cliente não encontrado.");
