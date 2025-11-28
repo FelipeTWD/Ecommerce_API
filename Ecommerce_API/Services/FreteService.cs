@@ -47,9 +47,9 @@ public class FreteService
             cliente = _clienteRepository.ObterClientePorId(cliente.Id);
 
         }
-        catch (Exception)
+        catch (ArgumentException ex)
         {
-            throw;
+            throw new("Erro ao obter o cliente: " + ex.Message);
         }
 
         // Calcular o frete usando o serviço de frete injetado

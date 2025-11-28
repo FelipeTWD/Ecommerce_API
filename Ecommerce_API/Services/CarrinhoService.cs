@@ -59,11 +59,6 @@ namespace Ecommerce_API.Services
 
                 return listaCarrinhosDTO;
             }
-            catch (DomainException)
-            {
-                // Repassa a exceção de domínio para o controller tratar
-                throw;
-            }
             catch (Exception ex)
             {
                 // Qualquer erro inesperado é encapsulado
@@ -78,15 +73,9 @@ namespace Ecommerce_API.Services
                     throw new DomainException("ID do carrinho inválido.");
                 _carrinhoRepository.Remover(id);
             }
-            catch (DomainException)
-            {
-                throw;
-            }
             catch (Exception ex)
             {
                 throw new Exception("Erro ao remover o carrinho.", ex);
-
-
             }
         }
         public decimal CalcularTotal(int idCarrinho)
@@ -99,10 +88,6 @@ namespace Ecommerce_API.Services
                 if (carrinho.ListaItensCarrinho == null || carrinho.ListaItensCarrinho.Count == 0)
                     throw new DomainException("O carrinho está vazio. Não é possível calcular o total.");
                 return carrinho.CalcularTotal();
-            }
-            catch (DomainException)
-            {
-                throw;
             }
             catch (Exception ex)
             {

@@ -43,6 +43,10 @@ public class PedidosService
         {
             throw new Exception("Erro ao incluir o pedido: " + ex.Message);
         }
+        finally
+        {
+
+        }
     }
     public List<PedidoDTO> Listar()
     {
