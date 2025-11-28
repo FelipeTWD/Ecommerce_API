@@ -20,7 +20,7 @@ namespace Ecommerce_API.Services
         {
             try
             {
-                var listaCarrinhos = _carrinhoRepository.Listar()
+                List<Carrinho> listaCarrinhos = _carrinhoRepository.Listar()
                     ?? throw new DomainException("Nenhum carrinho foi encontrado.");
 
                 if (listaCarrinhos.Count == 0)
@@ -34,7 +34,7 @@ namespace Ecommerce_API.Services
                         // Validação adicional para carrinho nulo
                         throw new DomainException("Carrinho inválido encontrado na coleção.");
 
-                    var dto = new CarrinhoDTO
+                    CarrinhoDTO dto = new CarrinhoDTO
                     {
                         IdCarrinho = carrinho.IdCarrinho,
                         ClienteId = carrinho.ClienteId,
@@ -93,7 +93,7 @@ namespace Ecommerce_API.Services
         {
             try
             {
-                var carrinho = _carrinhoRepository.Listar()
+                Carrinho carrinho = _carrinhoRepository.Listar()
                     .FirstOrDefault(c => c.IdCarrinho == idCarrinho)
                     ?? throw new DomainException("Carrinho não encontrado para calcular o total.");
                 if (carrinho.ListaItensCarrinho == null || carrinho.ListaItensCarrinho.Count == 0)
