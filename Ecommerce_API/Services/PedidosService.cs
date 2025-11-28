@@ -43,10 +43,6 @@ public class PedidosService
         {
             throw new Exception("Erro ao incluir o pedido: " + ex.Message);
         }
-        finally
-        {
-
-        }
     }
     public List<PedidoDTO> Listar()
     {
@@ -95,7 +91,6 @@ public class PedidosService
         {
             throw new Exception("Erro ao remover o pedido: " + ex.Message);
         }
-        
     }
 
 
