@@ -10,7 +10,7 @@ namespace Application.DTOs
         public int Quantidade { get; set; }
 
         // Precisa estar no DTO para calcular o subtotal ao retornar para cliente
-        public decimal Preco { get; set; }
+        public decimal Preco { get;  set; }
 
         // Propriedade calculada — não deve ser enviada pelo cliente como fonte de verdade
         public decimal SubTotal => Math.Round(Quantidade * Preco, 2);
