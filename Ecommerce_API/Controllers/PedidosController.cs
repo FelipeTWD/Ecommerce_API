@@ -38,7 +38,7 @@ public class PedidosController : ControllerBase
     {
         try
         {// Chama o serviço para listar os pedidos
-            var listaPedidos = _pedidosService.Listar();
+            List<PedidoDTO> listaPedidos = _pedidosService.Listar();
             return Ok(listaPedidos);
 
         }

@@ -63,7 +63,7 @@ namespace Ecommerce_API.Controllers
         {
             try
             {
-                var total = _carrinhoService.CalcularTotal(id);
+                decimal total = _carrinhoService.CalcularTotal(id);
                 return Ok(new { IdCarrinho = id, Total = total });
             }
             catch (DomainException ex)

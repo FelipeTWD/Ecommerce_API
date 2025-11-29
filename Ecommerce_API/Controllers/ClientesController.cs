@@ -34,7 +34,7 @@ public class ClientesController : ControllerBase
     {
         try
         {//Código que pode gerar exceções
-            var clientes = _clientesService.Listar();
+            List<ClienteDTO> clientes = _clientesService.Listar();
             if (clientes == null || clientes.Count == 0)
                 return NotFound("Nenhum cliente encontrado.");
             return Ok(clientes);
@@ -61,7 +61,7 @@ public class ClientesController : ControllerBase
     {
         try
         {
-            var cliente = _clientesService.ObterClientePorId(id);
+            ClienteDTO cliente = _clientesService.ObterClientePorId(id);
             if (cliente == null)
                 return NotFound("Cliente não encontrado.");
             return Ok(cliente);

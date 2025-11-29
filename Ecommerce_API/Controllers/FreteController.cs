@@ -20,7 +20,7 @@ public class FreteController : ControllerBase
     {
         try
         {
-            var resultado = _freteService.Calcular(freteDTO);
+            decimal resultado = _freteService.Calcular(freteDTO);
             return Ok(resultado);
 
         }
