@@ -19,6 +19,7 @@ public class PagamentoViaCartao : IPagamento
     public decimal Valor { get; set; }
     public int Parcelas { get; set; }
 
+
     bool IPagamento.SalvarPagamento(Pagamento pagamento)
     {
       return true;
