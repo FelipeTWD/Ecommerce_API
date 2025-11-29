@@ -32,7 +32,7 @@ public class PagamentoService
             _pagamentoRepository.SalvarPagamento(pagamento);
         }
     }
-    public decimal PagamentoViaCartao(decimal valor, int Parcelas, DateTime Vencimento)
+    public decimal PagamentoViaCartao(decimal valor, int Parcelas, DateTime Vencimento, bool SalvarPagamento)
     {
         IPagamento pagamento = new PagamentoViaCartao
         {
@@ -40,24 +40,39 @@ public class PagamentoService
             Parcelas = Parcelas,
             Vencimento = Vencimento
         };
+        try
+        {
 
-        Console.WriteLine("Pagamento via Cartão selecionado.");
-        if  (Vencimento < DateTime.Now)
-        {
-            Console.WriteLine("O pagamento expirou.");
+        
+            Console.WriteLine("Pagamento via Cartão selecionado.");
+            if  (Vencimento < DateTime.Now)
+            {
+                Console.WriteLine("O pagamento expirou.");
+            }
+            Console.WriteLine("Escolha em quantas parcelas será feito o pagamento 1x-12x. Tendo juros a partir de 2x.");
+            Parcelas = Console.ReadLine() !=null ? 1 : int.Parse(Console.ReadLine());
+            if (Parcelas > 1 && Parcelas <= 12)
+            {
+                Console.WriteLine($"Dessa forma o pagamento será feito em {Parcelas} parcelas, com 10% de juros.");
+                return pagamento.Valor += pagamento.Valor * 0.10m; // Adiciona 10% de taxa para 2 ou mais parcelas
+            }
+            else if (Parcelas == 1)
+            {
+                Console.WriteLine($"Dessa forma o pagamento será feito em {Parcelas} parcelas e não vai ter juros.");
+                return pagamento.Valor;
+            }
+            else
+            {
+                throw new ArgumentException("Número de parcelas inválido.");
+            }
         }
-        Console.WriteLine("Escolha em quantas parcelas será feito o pagamento 1x-12x. Tendo juros a partir de 2x.");
-        Parcelas = Console.ReadLine() !=null ? 1 : int.Parse(Console.ReadLine());
-        if ( Parcelas > 1 && Parcelas <= 12)
+        catch(ArgumentException ex)
         {
-            Console.WriteLine($"Dessa forma o pagamento será feito em {Parcelas} parcelas.");
-            return pagamento.Valor += pagamento.Valor * 0.10m; // Adiciona 10% de taxa para 2 ou mais parcelas
+            throw new ArgumentException("Impossivel completar o pagamento." + ex.Message);
         }
-        else if (Parcelas == 1)
+        finally
         {
-            Console.WriteLine($"Dessa forma o pagamento será feito em {Parcelas} parcelas.");
-            return pagamento.Valor; 
+
         }
     }
-//pagamento.Valor;
 }
