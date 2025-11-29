@@ -26,20 +26,21 @@ public class PagamentoViaCartao : IPagamento
 }
 public class PagamentoViaPix : IPagamento
 {
-    public DateTime Vencimento { get; set; }
+    public DateTime Vencimento { get; set; } = DateTime.Now;
     public decimal Valor { get; set; }
+    public decimal  Desconto { get; set; } = 0.10m; // 10% de desconto para pagamento via Pix
 
-    void IPagamento.SalvarPagamento(Pagamento pagamento)
+    bool IPagamento.SalvarPagamento(Pagamento pagamento)
     {
-        throw new NotImplementedException();
+        return true;
     }
 }
 public class PagamentoViaBoleto : IPagamento
 {
-    public DateTime Vencimento { get; set; }
+    public DateTime Vencimento { get; set; } = DateTime.Now;
     public decimal Valor { get; set; }
-    void IPagamento.SalvarPagamento(Pagamento pagamento)
+    bool IPagamento.SalvarPagamento(Pagamento pagamento)
     {
-        throw new NotImplementedException();
+        return true;
     }
 }

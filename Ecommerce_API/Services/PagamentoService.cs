@@ -65,6 +65,7 @@ public class PagamentoService
             {
                 throw new ArgumentException("Número de parcelas inválido.");
             }
+                
         }
         catch(ArgumentException ex)
         {
@@ -72,7 +73,55 @@ public class PagamentoService
         }
         finally
         {
+            _pagamentoRepository.SalvarPagamento((Pagamento)pagamento);
 
+        }
+    }
+    public decimal PagamentoViaPix(decimal desconto, decimal valor, DateTime Vencimento) 
+    {
+        IPagamento pagamento = new PagamentoViaPix
+        {
+            Desconto = desconto,
+            Valor = valor,
+            Vencimento = Vencimento
+        };
+        try
+        {
+            Console.WriteLine("Pagamento via Pix selecionado.");
+            if (Vencimento <= DateTime.Now.AddMinutes(30))
+            {
+                return pagamento.Valor -= pagamento.Valor * 0.10m; //Desconto de 10%.
+            }
+            else
+            {
+                throw new ArgumentException("Pagamento indisponivel.");
+            }
+        }
+        catch(ArgumentException ex)
+        {
+            throw new ArgumentException("Por favor, tente outra vez." + ex.Message);
+        }
+
+    }
+    public decimal PagamentoViaBoleto(decimal valor, DateTime Vencimento)
+    {
+        IPagamento pagamento = new PagamentoViaBoleto
+        {
+            Valor = valor,
+            Vencimento = Vencimento
+        };
+
+        Console.WriteLine("Pagamento via Boleto selecionado.");
+        if (Vencimento > DateTime.Now.AddDays(3))
+        {
+            Console.WriteLine("Boleto expirou.");
+            return 0m;
+        }
+        else
+        {
+            Console.WriteLine("Boleto disponivel para pagamento.");
+            _pagamentoRepository.SalvarPagamento((Pagamento)pagamento);
+            return pagamento.Valor;
         }
     }
 }
