@@ -1,4 +1,5 @@
-﻿using Domain.Entidades;
+﻿using Dapper;
+using Domain.Entidades;
 using Domain.Interfaces;
 using Infrastructure.Data;
 using System.Collections.Generic;
@@ -14,12 +15,8 @@ public class ClienteRepository : IClienteRepository
         string query = @"INSERT INTO public.Cliente(
 	                Nome, Senha, Endereco)
 	                VALUES (@Nome, @Senha, @Endereco);";
-        var result = conn.Connection.Execute(query, new
-        {
-            cliente.Nome,
-            cliente.Senha,
-            cliente.Endereco
-        });
+        var result = conn.Connection.Execute(sql: query, param: cliente);
+        
         BancoSql.ListaClientes.Add(cliente);
     }
 
@@ -30,6 +27,9 @@ public class ClienteRepository : IClienteRepository
 
     public List<Cliente> Listar()
     {
+        using var conn = new DbConnection();
+        string query = @"SELECT * FROM CLiente";
+        var cliente = conn.Connection.Query<Cliente>(sql: query);
        return BancoSql.ListaClientes.ToList();
     }
 
