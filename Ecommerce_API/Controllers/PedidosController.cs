@@ -15,7 +15,7 @@ public class PedidosController : ControllerBase
     {
         _pedidosService = pedidosService;
     }
-    [HttpPost("incluir")]
+    [HttpPost("Incluir")]
     public ActionResult Incluir(PedidoDTO pedidoDTO)
     {
         try

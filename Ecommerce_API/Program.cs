@@ -2,6 +2,7 @@ using Domain.Interfaces;
 using Ecommerce_API.Services;
 using Infrastructure.Repositorios;
 using Microsoft.Extensions.DependencyInjection;
+using Application.DTOs; // <- adicionado para PedidosService
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -22,12 +23,18 @@ builder.Services.AddScoped<IProdutoRepositoryJson, ProdutoRepositoryJson>(provid
 
 // ?? Serviço do carrinho (sem repositório)
 builder.Services.AddScoped<CarrinhoService>();
-builder.Services.AddScoped<ICarrinhoRepository, CarrinhoRepository>();
+
+// Registros para Pedido
+builder.Services.AddScoped<PedidosService>();
+builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
 
 builder.Services.AddControllers();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+// em Ecommerce_API/Program.cs, perto de outros registros de repositório
+builder.Services.AddScoped<ICarrinhoRepository, CarrinhoRepository>();
 
 WebApplication app = builder.Build();
 
