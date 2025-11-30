@@ -19,7 +19,7 @@ namespace Ecommerce_API.Controllers
         {
             try
             {
-                var subtotal = _itemCarrinhoService.ObterSubTotal(dto);
+                decimal subtotal = _itemCarrinhoService.ObterSubTotal(dto);
                 return Ok(subtotal);
             }
             catch (Exception ex)

@@ -1,4 +1,5 @@
 ﻿using Application.DTOs;
+using Domain.Entidades;
 
 namespace Ecommerce_API.Services
 {
@@ -10,8 +11,8 @@ namespace Ecommerce_API.Services
             {
                 if (dto.Quantidade <0)
                     throw new ArgumentException("Quantidade não pode ser negativa.");
-                var Entidade = dto.Mapear();
-                return Entidade.ImprimirSubTotal();
+                ItemCarrinho entidade = dto.Mapear();
+                return entidade.ImprimirSubTotal();
             }
             catch (ArgumentException ex)
             {
