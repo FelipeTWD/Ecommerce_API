@@ -28,6 +28,7 @@ builder.Services.AddScoped<CarrinhoService>();
 builder.Services.AddScoped<PedidosService>();
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
 
+// Registros para Cliente
 builder.Services.AddScoped<ClientesService>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 
