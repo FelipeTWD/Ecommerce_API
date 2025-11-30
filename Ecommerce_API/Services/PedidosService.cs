@@ -25,7 +25,6 @@ public class PedidosService
             Pedido pedido = new Pedido
             {
                 IdPedido = pedidoDTO.IdPedido,
-                ClienteId = pedidoDTO.ClienteId,
                 ListaItensPedido = pedidoDTO.ListaItensPedido.Select(item => new PedidoItens
                 {
                     IdPedido = item.IdItem,
@@ -55,7 +54,6 @@ public class PedidosService
             return pedidos.Select(pedido => new PedidoDTO
             {
                 IdPedido = pedido.IdPedido,
-                ClienteId = pedido.ClienteId,
                 ListaItensPedido = pedido.ListaItensPedido.Select(item => new PedidoItensDTO
                 {
                     IdItem = item.IdPedido,
