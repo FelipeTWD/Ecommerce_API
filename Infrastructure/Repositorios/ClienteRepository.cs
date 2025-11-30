@@ -14,9 +14,9 @@ namespace Infrastructure.Repositorios
             BancoSql.ListaClientes.Add(cliente);
         }
 
-        public Cliente? ObterClientePorId(int id)
+        public Cliente ObterClientePorId(int id)
         {
-            return BancoSql.ListaClientes.FirstOrDefault(c => c.Id == id);
+            return BancoSql.ListaClientes.FirstOrDefault(c => c.Id == id)!;
         }
 
         public List<Cliente> Listar()
@@ -26,7 +26,7 @@ namespace Infrastructure.Repositorios
 
         public void Remover(int id)
         {
-            var cliente = BancoSql.ListaClientes.FirstOrDefault(c => c.Id == id);
+            Cliente? cliente = BancoSql.ListaClientes.FirstOrDefault(c => c.Id == id);
             if (cliente != null) BancoSql.ListaClientes.Remove(cliente);
         }
     }

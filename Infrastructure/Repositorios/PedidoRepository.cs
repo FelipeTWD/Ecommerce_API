@@ -23,7 +23,7 @@ namespace Infrastructure.Repositorios
 
         public void Remover(int id)
         {
-            var pedido = BancoSql.ListaPedidos.FirstOrDefault(p => p.IdPedido == id);
+            Pedido? pedido = BancoSql.ListaPedidos.FirstOrDefault(p => p.IdPedido == id);
             if (pedido != null)
             {
                 BancoSql.ListaPedidos.Remove(pedido);

@@ -13,7 +13,7 @@ namespace Infrastructure.Repositorios
     {
         public void Remover(int id)
         {
-            var carrinho = BancoSql.ListaCarrinhos.FirstOrDefault(c => c.IdCarrinho == id);
+            Carrinho? carrinho = BancoSql.ListaCarrinhos.FirstOrDefault(c => c.IdCarrinho == id);
             if (carrinho != null) BancoSql.ListaCarrinhos.Remove(carrinho);
         }
 
@@ -24,7 +24,7 @@ namespace Infrastructure.Repositorios
 
         public decimal CalcularTotal(int IdCarrinho)
         {
-            var c = BancoSql.ListaCarrinhos.FirstOrDefault(x => x.IdCarrinho == IdCarrinho);
+            Carrinho? c = BancoSql.ListaCarrinhos.FirstOrDefault(x => x.IdCarrinho == IdCarrinho);
             return c?.CalcularTotal() ?? 0m;
         }
     }
