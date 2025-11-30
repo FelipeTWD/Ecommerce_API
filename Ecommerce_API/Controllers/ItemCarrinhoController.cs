@@ -9,13 +9,23 @@ namespace Ecommerce_API.Controllers
     [ApiController]
     public class ItemCarrinhoController : ControllerBase
     {
-        public ItemCarrinhoController()
-        { 
+        private readonly ItemCarrinhoService _itemCarrinhoService;
+        public ItemCarrinhoController(ItemCarrinhoService service)
+        {
+            _itemCarrinhoService = service;
         }
-        [HttpGet("Imprimir SubTotal")]
-        public ActionResult<decimal> ImprimirSubTotal(ItemCarrinhoDTO itemCarrinhoDTO)
-        {// Retorna o subtotal do item do carrinho
-            return Ok(itemCarrinhoDTO.SubTotal);
+        [HttpPost("subtotal")]
+        public ActionResult ObterSubTotal([FromBody] ItemCarrinhoDTO dto)
+        {
+            try
+            {
+                var subtotal = _itemCarrinhoService.ObterSubTotal(dto);
+                return Ok(subtotal);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

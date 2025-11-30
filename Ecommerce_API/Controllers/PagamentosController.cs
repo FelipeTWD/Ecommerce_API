@@ -1,7 +1,7 @@
 ﻿using Ecommerce_API.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ecommerce_API.Controllers;
+/*namespace Ecommerce_API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -17,3 +17,4 @@ public class PagamentosController : ControllerBase
     //[HttpPost("Pagar")]
     //[HttpGet("ListarParcelas")]
 }
+*/

@@ -6,7 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using Domain.Helpers;
 namespace Ecommerce_API.Services;
 
-public class PagamentoService 
+/*public class PagamentoService 
 {
     private readonly IPagamento _pagamentoRepository;
     public PagamentoService(IPagamento pagamentoRepository)
@@ -19,35 +19,11 @@ public class PagamentoService
         _pagamentoRepository.Valor = total;
 
     }
-    public void SalvarPagamento(Pagamento pagamento)
+    public decimal PagamentoViaCartao(decimal total, int Parcelas, DateTime Vencimento)
     {
         try
         {
-            if (pagamento == null || pagamento.Valor <= 0)
-            {
-                throw new ArgumentException("Pagamento inválido.");
-            }
-        }
-        catch (ArgumentException ex)
-        {
-            throw new("Erro ao processar o Pagamento:" + ex.Message);
-        }
-        finally
-        {
-            //_pagamentoRepository.SalvarPagamento(pagamento);
-        }
-    }
-    public decimal PagamentoViaCartao(decimal total, int Parcelas, DateTime Vencimento, bool SalvarPagamento)
-    {
-        IPagamento pagamento = new PagamentoViaCartao
-        {
-            Valor = total,
-            Parcelas = Parcelas,
-            Vencimento = Vencimento
-        };
-        try
-        {
-
+            IPagamento pagamento
         
             Console.WriteLine("Pagamento via Cartão selecionado.");
             if  (Vencimento < DateTime.Now)
@@ -76,16 +52,12 @@ public class PagamentoService
         {
             throw new ArgumentException("Impossivel completar o pagamento." + ex.Message);
         }
-        finally
-        {
-            //_pagamentoRepository.SalvarPagamento((Pagamento)pagamento);
-
-        }
     }
-    public decimal PagamentoViaPix(decimal total, DateTime Vencimento, bool SalvarPagamento) 
+    public decimal PagamentoViaPix(decimal desconto, decimal total, DateTime Vencimento, bool SalvarPagamento) 
     {
         IPagamento pagamento = new PagamentoViaPix
         {
+            Desconto = desconto,
             Valor = total,
             Vencimento = Vencimento
         };
@@ -124,7 +96,7 @@ public class PagamentoService
         else
         {
             Console.WriteLine("Boleto disponivel para pagamento.");
-            //_pagamentoRepository.SalvarPagamento((Pagamento)pagamento);
+            _pagamentoRepository.SalvarPagamento((Pagamento)pagamento);
             return pagamento.Valor;
         }
     }
@@ -137,4 +109,4 @@ public class PagamentoService
         }
         return false;
     }
-}
+}*/

@@ -12,7 +12,7 @@ public interface IPagamento
     decimal Valor { get; set; }
     public DateTime Vencimento { get; set; }
 }
-public class PagamentoViaCartao : IPagamento
+/*public class PagamentoViaCartao : IPagamento
 {
     private int _parcelas;
     public DateTime Vencimento { get; set; } = DateTime.Now;
@@ -46,7 +46,7 @@ public class PagamentoViaPix : IPagamento
 }
 public class PagamentoViaBoleto : IPagamento
 {
-    public DateTime Vencimento { get; set; } = DateTime.Now.AddDays(3);
+    public DateTime Vencimento { get; set; } = DateTime.Now.AddMonths(1);
     public decimal Valor { get; set; }
 
-}
+´}*/

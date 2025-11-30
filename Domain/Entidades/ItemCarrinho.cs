@@ -9,6 +9,10 @@ public class ItemCarrinho
 	public decimal Preco { get; set; }
     // Propriedade calculada para obter o subtotal do item no carrinho
     public decimal SubTotal => Preco * Quantidade;
-
+	
+	public decimal IprimirSubTotal()
+	{
+		return SubTotal;
+    }
 }
 
