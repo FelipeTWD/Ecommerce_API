@@ -20,16 +20,6 @@ public class ClientesService
         {
             if (clienteDTO is null)
                 throw new DomainException("Dados do cliente não podem ser nulos.");
-
-            if (string.IsNullOrWhiteSpace(clienteDTO.Nome))
-                throw new DomainException("O nome do cliente é obrigatório.");
-
-            if (string.IsNullOrWhiteSpace(clienteDTO.Senha))
-                throw new DomainException("A senha é obrigatória.");
-
-            if (clienteDTO.EnderecoCliente is null)
-                throw new DomainException("O endereço é obrigatório.");
-
             // Mapeia usando seu DTO
             Cliente cliente = clienteDTO.Mapear();
 

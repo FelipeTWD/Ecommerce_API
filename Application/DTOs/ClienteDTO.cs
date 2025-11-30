@@ -15,7 +15,6 @@ public class ClienteDTO
             Nome = this.Nome,
             EnderecoCliente = this.EnderecoCliente
         };
-        cliente.AdicionarSenha(this.Senha);
         return cliente;
     }
 }
