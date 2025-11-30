@@ -21,6 +21,10 @@ builder.Services.AddScoped<ProdutosService>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IProdutoRepositoryJson, ProdutoRepositoryJson>(provider => new ProdutoRepositoryJson(caminhoJson));
 
+// Serviço do cliente (adicionado)
+builder.Services.AddScoped<ClientesService>();
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+
 // ?? Serviço do carrinho (sem repositório)
 builder.Services.AddScoped<CarrinhoService>();
 

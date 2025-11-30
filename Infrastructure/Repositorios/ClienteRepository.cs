@@ -4,15 +4,14 @@ using Infrastructure.Data;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Infrastructure.Repositorios
+namespace Infrastructure.Repositorios;
+
+public class ClienteRepository : IClienteRepository
 {
-    public class ClienteRepository : IClienteRepository
+    public void Cadastrar(Cliente cliente)
     {
-        public void Cadastrar(Cliente cliente)
-        {
-            cliente.Id = BancoSql.ListaClientes.Any() ? BancoSql.ListaClientes.Max(c => c.Id) + 1 : 1;
-            BancoSql.ListaClientes.Add(cliente);
-        }
+        BancoSql.ListaClientes.Add(cliente);
+    }
 
         public Cliente ObterClientePorId(int id)
         {
