@@ -20,7 +20,12 @@ builder.Services.AddScoped<ProdutosService>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IProdutoRepositoryJson, ProdutoRepositoryJson>(provider => new ProdutoRepositoryJson(caminhoJson));
 
+// ?? Serviço do carrinho (sem repositório)
+builder.Services.AddScoped<CarrinhoService>();
+builder.Services.AddScoped<ICarrinhoRepository, CarrinhoRepository>();
+
 builder.Services.AddControllers();
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
@@ -39,3 +44,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
