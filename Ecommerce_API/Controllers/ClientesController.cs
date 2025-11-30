@@ -20,7 +20,7 @@ public class ClientesController : ControllerBase
         _clientesService = clientesService;
     }
 
-    [HttpPost]
+    [HttpPost("Cadastrar")]
     public IActionResult Cadastrar([FromBody] ClienteDTO dto)
     {
         try

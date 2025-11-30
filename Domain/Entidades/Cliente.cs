@@ -15,14 +15,4 @@ public class Cliente
         senha = Console.ReadLine();
         return senha;
     }
-    public Cliente Mapear(Cliente cliente)
-    {
-        var clienteMapeado = new Cliente
-        {
-            Nome = cliente.Nome,
-            EnderecoCliente = cliente.EnderecoCliente
-        };
-        clienteMapeado.AdicionarSenha(cliente.Senha);
-        return clienteMapeado;
-    }
 }

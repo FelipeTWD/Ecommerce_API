@@ -8,8 +8,6 @@ namespace Application.DTOs
         public int IdItemCarrinho { get; set; }
         public int IdProduto { get; set; }
         public int Quantidade { get; set; }
-
-        // Precisa estar no DTO para calcular o subtotal ao retornar para cliente
         public decimal Preco { get;  set; }
 
         // Propriedade calculada — não deve ser enviada pelo cliente como fonte de verdade
