@@ -20,22 +20,17 @@ public class ClientesController : ControllerBase
         _clientesService = clientesService;
     }
 
-    [HttpPost("Cadastrar {ClienteDTO}")]
-    public ActionResult Cadastrar(ClienteDTO clienteDTO)
+    [HttpPost]
+    public IActionResult Cadastrar([FromBody] ClienteDTO dto)
     {
         try
         {
-            _clientesService.Cadastrar(clienteDTO);
-
-            return Ok();
-        }
-        catch (DomainException ex)
-        {
-            return BadRequest(ex.Message);
+            _clientesService.Cadastrar(dto);
+            return Ok("Cliente cadastrado com sucesso!");
         }
         catch (Exception ex)
         {
-            return StatusCode(500, "Erro interno do servidor.");
+            return BadRequest(ex.Message);
         }
     }
     [HttpGet("Listar")]
@@ -65,7 +60,7 @@ public class ClientesController : ControllerBase
 
 
     }
-    [HttpGet("{id}")]
+    [HttpGet("Obter {id}")]
     public ActionResult ObterClientePorId(int id)
     {
         try

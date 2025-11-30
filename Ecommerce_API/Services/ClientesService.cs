@@ -18,12 +18,22 @@ public class ClientesService
     {
         try
         {
-            if (clienteDTO == null)
-            {
+            if (clienteDTO is null)
                 throw new DomainException("Dados do cliente não podem ser nulos.");
-            }
 
+            if (string.IsNullOrWhiteSpace(clienteDTO.Nome))
+                throw new DomainException("O nome do cliente é obrigatório.");
+
+            if (string.IsNullOrWhiteSpace(clienteDTO.Senha))
+                throw new DomainException("A senha é obrigatória.");
+
+            if (clienteDTO.EnderecoCliente is null)
+                throw new DomainException("O endereço é obrigatório.");
+
+            // Mapeia usando seu DTO
             Cliente cliente = clienteDTO.Mapear();
+
+            // Chamada ao repositório
             _clienteRepository.Cadastrar(cliente);
         }
         catch (DomainException ex)
@@ -44,16 +54,15 @@ public class ClientesService
                 {
                     throw new DomainException("Cliente não encontrado.");
                 }
-                if (cliente.Endereco == null)
+                if (cliente.EnderecoCliente == null)
                 {
                     throw new ArgumentException("Endereço do cliente não encontrado.");
                 }
 
                 ClienteDTO clienteDTO = new ClienteDTO
                 {
-                    Id = cliente.Id,
                     Nome = cliente.Nome,
-                    Endereco = cliente.Endereco
+                    EnderecoCliente = cliente.EnderecoCliente,
                 };
                 clientesDTO.Add(clienteDTO);
                 
@@ -84,9 +93,8 @@ public class ClientesService
             }
             ClienteDTO clienteDTO = new ClienteDTO
             {
-                Id = cliente.Id,
                 Nome = cliente.Nome,
-                Endereco = cliente.Endereco
+                EnderecoCliente = cliente.EnderecoCliente
             };
             return clienteDTO;
         }
