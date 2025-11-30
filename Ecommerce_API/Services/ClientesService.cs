@@ -2,6 +2,8 @@
 using Domain.Entidades;
 using Domain.Helpers;
 using Domain.Interfaces;
+using Infrastructure.Data;
+using Infrastructure.Repositorios;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -9,20 +11,19 @@ namespace Ecommerce_API.Services;
 
 public class ClientesService
 {
-    private IClienteRepository _clienteRepository;
+    private readonly IClienteRepository _clienteRepository;
     public ClientesService(IClienteRepository clienteRepository)
     {
         _clienteRepository = clienteRepository;
     }
-    public void Cadastrar(ClienteDTO clienteDTO)
+    public void Cadastrar(Cliente cliente)
     {
         try
         {
-            if (clienteDTO is null)
+            if (IsClienteInvalido(cliente))
                 throw new DomainException("Dados do cliente não podem ser nulos.");
-            // Mapeia usando seu DTO
-            Cliente cliente = clienteDTO.Mapear();
-
+            if (BancoSql.ListaClientes.Any(p => p.Id == cliente.Id) || BancoSql.ListaClientes.Any(p => p.Nome == cliente.Nome))
+                throw new ArgumentException("Esse cliente ja esta cadastrado.");
             // Chamada ao repositório
             _clienteRepository.Cadastrar(cliente);
         }
@@ -40,13 +41,9 @@ public class ClientesService
             foreach (Cliente cliente in clientes)
             {
  
-                if (cliente == null)
+                if (IsClienteInvalido(cliente))
                 {
-                    throw new DomainException("Cliente não encontrado.");
-                }
-                if (cliente.EnderecoCliente == null)
-                {
-                    throw new ArgumentException("Endereço do cliente não encontrado.");
+                    throw new DomainException("Cliente Invalido.");
                 }
 
                 ClienteDTO clienteDTO = new ClienteDTO
@@ -69,9 +66,38 @@ public class ClientesService
         }
         catch (Exception ex)
         {
-            throw new Exception("Erro ao listar clientes: " + ex.Message);
+            throw new Exception(ex.Message);
         }
     }
+
+    public ClienteDTO Logar(string Nome, string Senha)
+    {
+        try
+        {
+            Cliente cliente = new();
+            if (BancoSql.ListaClientes.Any(p => p.Nome == Nome.ToUpper()) && BancoSql.ListaClientes.Any(p => p.Senha == Senha))
+                cliente = _clienteRepository.Logar(Nome.ToUpper());
+            else
+            {
+                throw new DomainException("Usuario ou Senha Ivalidos!");
+            }
+            ClienteDTO clienteDTO = new ClienteDTO
+            {
+                Nome = cliente.Nome,
+                EnderecoCliente = cliente.EnderecoCliente
+            };
+            return clienteDTO;
+        }
+        catch (DomainException ex)
+        {
+            throw new DomainException(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }
+
     public ClienteDTO ObterClientePorId(int id)
     {
         try
@@ -91,7 +117,45 @@ public class ClientesService
 
         catch (DomainException ex)
         {
-            throw new DomainException("Cliente Inesistente: " + ex.Message);
+            throw new DomainException("Cliente Inexistente: " + ex.Message);
         }
+    }
+
+    public void RemoverCliente(string Nome)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(Nome))
+                throw new ArgumentException("Nome do cliente inválido.");
+            bool removido = _clienteRepository.Remover(Nome);
+            if (!removido)
+                throw new DomainException("Cliente não encontrado para remoção.");
+        }
+        catch (DomainException ex)
+        {
+            throw new DomainException($"{ex.Message}");
+        }
+        catch (ArgumentException ex)
+        {
+            throw new ArgumentException($"{ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"{ex.Message}");
+        }
+    }
+
+    private bool IsClienteInvalido(Cliente cliente)
+    {
+        if (string.IsNullOrWhiteSpace(cliente.Nome) || string.IsNullOrWhiteSpace(cliente.Senha) || cliente.Id == 0 || IsEnderecoInvalido(cliente.EnderecoCliente))
+            return true;
+        return false;
+    }
+
+    private bool IsEnderecoInvalido(Endereco endereco)
+    {
+        if (string.IsNullOrWhiteSpace(endereco.Cidade) || string.IsNullOrWhiteSpace(endereco.Estado))
+            return true;
+        return false;
     }
 }

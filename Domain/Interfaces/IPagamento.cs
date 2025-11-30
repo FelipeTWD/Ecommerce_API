@@ -46,7 +46,7 @@ public class PagamentoViaPix : IPagamento
 }
 public class PagamentoViaBoleto : IPagamento
 {
-    public DateTime Vencimento { get; set; } = DateTime.Now.AddMonths(1);
+    public DateTime Vencimento { get; set; } = DateTime.Now.AddDays(3);
     public decimal Valor { get; set; }
 
 }

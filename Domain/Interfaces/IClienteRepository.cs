@@ -4,7 +4,9 @@ namespace Domain.Interfaces;
 
 public interface IClienteRepository
 {
-    bool Cadastrar(Cliente cliente);
+    void Cadastrar(Cliente cliente);
     List<Cliente> Listar();
     Cliente ObterClientePorId(int id);
+    Cliente Logar(string Nome);
+    bool Remover(string Nome);
 }

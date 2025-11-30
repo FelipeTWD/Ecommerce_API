@@ -54,8 +54,8 @@ public class ProdutosController : ControllerBase
             return StatusCode(500, $"Erro interno do servidor: {ex.Message}"); // Erro não precissível
         }
     }
-    [HttpDelete("Remover/{id:int}")]
 
+    [HttpDelete("Remover/{id:int}")]
     public ActionResult Remover(int id)
     {
         try
@@ -76,6 +76,7 @@ public class ProdutosController : ControllerBase
             return StatusCode(500, $"Erro ao remover o produto: {ex.Message}");
         }
     }
+
     [HttpPut("AtualizarQuantidade/{produtoId:int}/{quantidade:int}")]
 
     public ActionResult AtualizarQuantidade(int produtoId, int quantidade)

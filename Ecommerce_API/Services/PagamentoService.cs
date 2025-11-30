@@ -34,7 +34,7 @@ public class PagamentoService
         }
         finally
         {
-            _pagamentoRepository.SalvarPagamento(pagamento);
+            //_pagamentoRepository.SalvarPagamento(pagamento);
         }
     }
     public decimal PagamentoViaCartao(decimal total, int Parcelas, DateTime Vencimento, bool SalvarPagamento)
@@ -78,15 +78,14 @@ public class PagamentoService
         }
         finally
         {
-            _pagamentoRepository.SalvarPagamento((Pagamento)pagamento);
+            //_pagamentoRepository.SalvarPagamento((Pagamento)pagamento);
 
         }
     }
-    public decimal PagamentoViaPix(decimal desconto, decimal total, DateTime Vencimento, bool SalvarPagamento) 
+    public decimal PagamentoViaPix(decimal total, DateTime Vencimento, bool SalvarPagamento) 
     {
         IPagamento pagamento = new PagamentoViaPix
         {
-            Desconto = desconto,
             Valor = total,
             Vencimento = Vencimento
         };
@@ -125,7 +124,7 @@ public class PagamentoService
         else
         {
             Console.WriteLine("Boleto disponivel para pagamento.");
-            _pagamentoRepository.SalvarPagamento((Pagamento)pagamento);
+            //_pagamentoRepository.SalvarPagamento((Pagamento)pagamento);
             return pagamento.Valor;
         }
     }

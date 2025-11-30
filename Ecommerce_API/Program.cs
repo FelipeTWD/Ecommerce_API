@@ -32,10 +32,6 @@ builder.Services.AddScoped<CarrinhoService>();
 builder.Services.AddScoped<PedidosService>();
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
 
-// Registros para Cliente
-builder.Services.AddScoped<ClientesService>();
-builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
-
 builder.Services.AddControllers();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -43,6 +39,7 @@ builder.Services.AddOpenApi();
 
 // em Ecommerce_API/Program.cs, perto de outros registros de repositório
 builder.Services.AddScoped<ICarrinhoRepository, CarrinhoRepository>();
+
 WebApplication app = builder.Build();
 
 // configurar o pipeline de solicitação HTTP.

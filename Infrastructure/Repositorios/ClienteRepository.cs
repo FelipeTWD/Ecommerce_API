@@ -9,16 +9,14 @@ namespace Infrastructure.Repositorios;
 
 public class ClienteRepository : IClienteRepository
 {
-    public bool Cadastrar(Cliente cliente)
+    public void Cadastrar(Cliente cliente)
     {
-        using DbConnection conn = new DbConnection();
-        string query = @"INSERT INTO public.Cliente(
-	                Nome, Senha, Endereco)
-	                VALUES (@Nome, @Senha, @Endereco);";
-        int result = conn.Connection.Execute(sql: query, param: cliente);
-        return result == 1;
-             
-        //BancoSql.ListaClientes.Add(cliente);
+        BancoSql.ListaClientes.Add(cliente);
+    }
+
+    public Cliente Logar(string Nome)
+    {
+        return BancoSql.ListaClientes.FirstOrDefault(c => c.Nome == Nome)!;
     }
 
     public Cliente ObterClientePorId(int id)
@@ -28,17 +26,18 @@ public class ClienteRepository : IClienteRepository
 
     public List<Cliente> Listar()
     {
-        using DbConnection conn = new DbConnection();
-        string query = @"SELECT * FROM CLiente";
-        IEnumerable<Cliente> cliente = conn.Connection.Query<Cliente>(sql: query);
-        return cliente.ToList();
-            //BancoSql.ListaClientes.ToList();
+        return BancoSql.ListaClientes.ToList();
     }
 
-    public void Remover(int id)
+    public bool Remover(string Nome)
     {
-      Cliente? cliente = BancoSql.ListaClientes.FirstOrDefault(c => c.Id == id);
-      if (cliente != null) BancoSql.ListaClientes.Remove(cliente);
+        Cliente cliente = BancoSql.ListaClientes.FirstOrDefault(c => c.Nome == Nome.ToUpper());
+        if (cliente != null)
+        {
+            BancoSql.ListaClientes.Remove(cliente);
+            return true;
+        }
+        return false;
     }
     
 }
