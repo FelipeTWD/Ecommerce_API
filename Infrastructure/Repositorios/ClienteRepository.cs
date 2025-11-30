@@ -9,15 +9,16 @@ namespace Infrastructure.Repositorios;
 
 public class ClienteRepository : IClienteRepository
 {
-    public void Cadastrar(Cliente cliente)
+    public bool Cadastrar(Cliente cliente)
     {
         using DbConnection conn = new DbConnection();
         string query = @"INSERT INTO public.Cliente(
 	                Nome, Senha, Endereco)
 	                VALUES (@Nome, @Senha, @Endereco);";
         int result = conn.Connection.Execute(sql: query, param: cliente);
-
-        BancoSql.ListaClientes.Add(cliente);
+        return result == 1;
+             
+        //BancoSql.ListaClientes.Add(cliente);
     }
 
     public Cliente ObterClientePorId(int id)
@@ -30,7 +31,8 @@ public class ClienteRepository : IClienteRepository
         using DbConnection conn = new DbConnection();
         string query = @"SELECT * FROM CLiente";
         IEnumerable<Cliente> cliente = conn.Connection.Query<Cliente>(sql: query);
-        return BancoSql.ListaClientes.ToList();
+        return cliente.ToList();
+            //BancoSql.ListaClientes.ToList();
     }
 
     public void Remover(int id)
