@@ -11,7 +11,7 @@ namespace Ecommerce_API.Services
                 if (dto.Quantidade <0)
                     throw new ArgumentException("Quantidade não pode ser negativa.");
                 var Entidade = dto.Mapear();
-                return Entidade.IprimirSubTotal();
+                return Entidade.ImprimirSubTotal();
             }
             catch (ArgumentException ex)
             {
