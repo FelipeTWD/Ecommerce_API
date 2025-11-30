@@ -20,7 +20,7 @@ public class ClientesController : ControllerBase
         _clientesService = clientesService;
     }
 
-    [HttpPost("Cadastrar")]
+    [HttpPost("Cadastrar {ClienteDTO}")]
     public ActionResult Cadastrar(ClienteDTO clienteDTO)
     {
         try
