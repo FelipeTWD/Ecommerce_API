@@ -10,7 +10,7 @@ namespace Domain.Interfaces;
 public interface IPagamento
 {
     decimal Valor { get; set; }
-
+    public DateTime Vencimento { get; set; }
     bool SalvarPagamento(Pagamento pagamento);
 }
 public class PagamentoViaCartao : IPagamento
