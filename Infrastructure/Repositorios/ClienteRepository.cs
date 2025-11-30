@@ -10,6 +10,16 @@ public class ClienteRepository : IClienteRepository
 {
     public void Cadastrar(Cliente cliente)
     {
+        using var conn = new DbConnection();
+        string query = @"INSERT INTO public.Cliente(
+	                Nome, Senha, Endereco)
+	                VALUES (@Nome, @Senha, @Endereco);";
+        var result = conn.Connection.Execute(query, new
+        {
+            cliente.Nome,
+            cliente.Senha,
+            cliente.Endereco
+        });
         BancoSql.ListaClientes.Add(cliente);
     }
 
