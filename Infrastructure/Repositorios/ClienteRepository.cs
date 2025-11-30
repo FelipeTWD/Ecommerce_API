@@ -11,12 +11,12 @@ public class ClienteRepository : IClienteRepository
 {
     public void Cadastrar(Cliente cliente)
     {
-        using var conn = new DbConnection();
+        using DbConnection conn = new DbConnection();
         string query = @"INSERT INTO public.Cliente(
 	                Nome, Senha, Endereco)
 	                VALUES (@Nome, @Senha, @Endereco);";
-        var result = conn.Connection.Execute(sql: query, param: cliente);
-        
+        int result = conn.Connection.Execute(sql: query, param: cliente);
+
         BancoSql.ListaClientes.Add(cliente);
     }
 
@@ -27,10 +27,10 @@ public class ClienteRepository : IClienteRepository
 
     public List<Cliente> Listar()
     {
-        using var conn = new DbConnection();
+        using DbConnection conn = new DbConnection();
         string query = @"SELECT * FROM CLiente";
-        var cliente = conn.Connection.Query<Cliente>(sql: query);
-       return BancoSql.ListaClientes.ToList();
+        IEnumerable<Cliente> cliente = conn.Connection.Query<Cliente>(sql: query);
+        return BancoSql.ListaClientes.ToList();
     }
 
     public void Remover(int id)
