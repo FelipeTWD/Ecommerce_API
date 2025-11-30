@@ -10,7 +10,7 @@ public class ClienteDTO
 
     public Cliente Mapear()
     {
-        var cliente = new Cliente
+        Cliente cliente = new Cliente
         {
             Nome = this.Nome,
             EnderecoCliente = this.EnderecoCliente
