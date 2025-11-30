@@ -11,6 +11,6 @@ public class Pagamento
 
     public int IdPagamento { get; set; }
     public decimal Valor { get; set; }
-    public DateTime DataPagamento { get; set; }
+    public DateTime DataPagamento { get; set; } = DateTime.Now;
 }
 

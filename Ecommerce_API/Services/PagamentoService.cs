@@ -77,7 +77,7 @@ public class PagamentoService
 
         }
     }
-    public decimal PagamentoViaPix(decimal desconto, decimal valor, DateTime Vencimento) 
+    public decimal PagamentoViaPix(decimal desconto, decimal valor, DateTime Vencimento, bool SalvarPagamento) 
     {
         IPagamento pagamento = new PagamentoViaPix
         {
@@ -103,7 +103,7 @@ public class PagamentoService
         }
 
     }
-    public decimal PagamentoViaBoleto(decimal valor, DateTime Vencimento)
+    public decimal PagamentoViaBoleto(decimal valor, DateTime Vencimento, bool SalvarPagamento)
     {
         IPagamento pagamento = new PagamentoViaBoleto
         {
