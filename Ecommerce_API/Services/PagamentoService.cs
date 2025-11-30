@@ -129,4 +129,13 @@ public class PagamentoService
             return pagamento.Valor;
         }
     }
+
+    private bool IsPagamentoInvalido(Pagamento pagamento)
+    {
+        if (pagamento == null || pagamento.Valor <= 0)
+        {
+            return true;
+        }
+        return false;
+    }
 }

@@ -4,8 +4,6 @@ using Ecommerce_API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Helpers;
 
-
-
 namespace Ecommerce_API.Controllers;
 
 [Route("api/[controller]")]

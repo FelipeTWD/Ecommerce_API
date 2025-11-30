@@ -49,9 +49,9 @@ public class ProdutosController : ControllerBase
         {
             return NotFound(ex.Message); // Erro precissível de domínio
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return StatusCode(500, "Erro interno do servidor."); // Erro não precissível
+            return StatusCode(500, $"Erro interno do servidor: {ex.Message}"); // Erro não precissível
         }
     }
     [HttpDelete("Remover/{id:int}")]

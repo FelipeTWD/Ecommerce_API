@@ -11,37 +11,42 @@ public interface IPagamento
 {
     decimal Valor { get; set; }
     public DateTime Vencimento { get; set; }
-    bool SalvarPagamento(Pagamento pagamento);
 }
 public class PagamentoViaCartao : IPagamento
 {
+    private int _parcelas;
     public DateTime Vencimento { get; set; } = DateTime.Now;
     public decimal Valor { get; set; }
-    public int Parcelas { get; set; }
-
-
-    bool IPagamento.SalvarPagamento(Pagamento pagamento)
+    public List<DateTime> ListaDeVencimentos { get; private set; } = new List<DateTime>(); // Armazena as datas de vencimento das parcelas
+    public int Parcelas
     {
-      return true;
+        get { return _parcelas; }
+        set
+        {
+            _parcelas = value;
+            CalcularDatasDasParcelas();
+        }
+    }
+    private void CalcularDatasDasParcelas() // Calcula as datas de vencimento das parcelas
+    {
+        ListaDeVencimentos.Clear();
+
+        for (int i = 1; i <= _parcelas; i++)
+        {
+            DateTime dataParcela = Vencimento.AddMonths(i);
+            ListaDeVencimentos.Add(dataParcela);
+        }
     }
 }
 public class PagamentoViaPix : IPagamento
 {
-    public DateTime Vencimento { get; set; } = DateTime.Now;
+    public DateTime Vencimento { get; set; } = DateTime.Now.AddMinutes(30);
     public decimal Valor { get; set; }
-    public decimal  Desconto { get; set; } = 0.10m; // 10% de desconto para pagamento via Pix
 
-    bool IPagamento.SalvarPagamento(Pagamento pagamento)
-    {
-        return true;
-    }
 }
 public class PagamentoViaBoleto : IPagamento
 {
-    public DateTime Vencimento { get; set; } = DateTime.Now;
+    public DateTime Vencimento { get; set; } = DateTime.Now.AddMonths(1);
     public decimal Valor { get; set; }
-    bool IPagamento.SalvarPagamento(Pagamento pagamento)
-    {
-        return true;
-    }
+
 }

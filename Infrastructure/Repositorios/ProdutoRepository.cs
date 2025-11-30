@@ -27,8 +27,9 @@ public class ProdutoRepository : IProdutoRepository
         if (produto != null)
         {
             BancoSql.ListaProdutos.Remove(produto);
+            return true;
         }
-        return true;
+        return false;
     }
     public void AtualizarQuantidade(int produtoId, int quantidade)
     {

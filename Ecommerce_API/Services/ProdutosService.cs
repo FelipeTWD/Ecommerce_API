@@ -2,6 +2,7 @@
 using Domain.Entidades;
 using Domain.Interfaces;
 using Domain.Helpers;
+using Infrastructure.Data;
 
 namespace Ecommerce_API.Services;
 
@@ -20,6 +21,8 @@ public class ProdutosService
     {
         if (IsProdutoInvalido(produto))
             throw new ArgumentException("Todos os dados do produto devem ser devidamente preenchidos!!!");
+        if (BancoSql.ListaProdutos.Any(p => p.Id == produto.Id) || BancoSql.ListaProdutos.Any(p => p.Nome == produto.Nome))
+            throw new ArgumentException("Esse produto ja existe no catalogo");
         _produtoRepository.Incluir(produto);
         _produtoRepositoryJson.SalvarNoArquivo();
     }
@@ -32,31 +35,17 @@ public class ProdutosService
                 ?? throw new DomainException("Nenhum produto foi encontrado.");
             if (listaProdutos.Count == 0)
                 throw new DomainException("Nenhum produto disponível para listar.");
-            //List<ProdutoDTO> listaProdutosDTO = new List<ProdutoDTO>();
-            //foreach (var produto in listaProdutos)
-            //{
-            //    if (produto == null)
-            //        throw new DomainException("Produto inválido encontrado na coleção.");
-            //    // Mapear Produto para ProdutoDTO
-            //    listaProdutosDTO.Add(new ProdutoDTO
-            //    {
-            //        Id = produto.Id,
-            //        Nome = produto.Nome,
-            //    });
-            //}
-            //return listaProdutosDTO;
-
             return listaProdutos;
         }
         catch (DomainException ex)
         {
             // Erros de domínio são relançados
-            throw new("Id do produto não encontrado", ex);
+            throw new DomainException($"{ex.Message}");
         }
         catch (Exception ex)
         {
             // Qualquer erro inesperado é encapsulado
-            throw new Exception("Erro ao listar produtos.", ex);
+            throw new Exception($"{ex.Message}");
         }
     }
     public void Remover(int id)
@@ -71,9 +60,17 @@ public class ProdutosService
             else
                 _produtoRepositoryJson.SalvarNoArquivo();
         }
+        catch (DomainException ex)
+        {
+            throw new DomainException($"{ex.Message}");
+        }
+        catch (ArgumentException ex)
+        {
+            throw new ArgumentException($"{ex.Message}");
+        }
         catch (Exception ex)
         {
-            throw new Exception("Erro ao remover o produto.", ex);
+            throw new Exception($"{ex.Message}");
         }
     }
 
@@ -94,9 +91,17 @@ public class ProdutosService
             _produtoRepository.AtualizarQuantidade(produtoId, quantidade);
             _produtoRepositoryJson.SalvarNoArquivo();
         }
+        catch (DomainException ex)
+        {
+            throw new DomainException($"{ex.Message}");
+        }
+        catch (ArgumentException ex)
+        {
+            throw new ArgumentException($"{ex.Message}");
+        }
         catch (Exception ex)
         {
-            throw new Exception("Erro ao atualizar o estoque do produto.", ex);
+            throw new Exception($"{ex.Message}");
         }
     }
 
