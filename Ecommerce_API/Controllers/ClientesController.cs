@@ -23,11 +23,20 @@ public class ClientesController : ControllerBase
     [HttpPost("Cadastrar")]
     public ActionResult Cadastrar(ClienteDTO clienteDTO)
     {
+        try
+        {
+            _clientesService.Cadastrar(clienteDTO);
 
-        _clientesService.Cadastrar(clienteDTO);
-
-        return Ok();
-
+            return Ok();
+        }
+        catch (DomainException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Erro interno do servidor.");
+        }
     }
     [HttpGet("Listar")]
     public ActionResult Listar()

@@ -16,8 +16,20 @@ public class ClientesService
     }
     public void Cadastrar(ClienteDTO clienteDTO)
     {
-        Cliente cliente = clienteDTO.Mapear();
-        _clienteRepository.Cadastrar(cliente);
+        try
+        {
+            if (clienteDTO == null)
+            {
+                throw new DomainException("Dados do cliente não podem ser nulos.");
+            }
+
+            Cliente cliente = clienteDTO.Mapear();
+            _clienteRepository.Cadastrar(cliente);
+        }
+        catch (DomainException ex)
+        {
+            throw new Exception("Erro ao cadastrar cliente: " + ex.Message);
+        }
     }
     public List<ClienteDTO> Listar()
     {
