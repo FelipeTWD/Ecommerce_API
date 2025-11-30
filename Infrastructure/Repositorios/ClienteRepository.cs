@@ -13,20 +13,20 @@ public class ClienteRepository : IClienteRepository
         BancoSql.ListaClientes.Add(cliente);
     }
 
-        public Cliente ObterClientePorId(int id)
-        {
-            return BancoSql.ListaClientes.FirstOrDefault(c => c.Id == id)!;
-        }
-
-        public List<Cliente> Listar()
-        {
-            return BancoSql.ListaClientes.ToList();
-        }
-
-        public void Remover(int id)
-        {
-            Cliente? cliente = BancoSql.ListaClientes.FirstOrDefault(c => c.Id == id);
-            if (cliente != null) BancoSql.ListaClientes.Remove(cliente);
-        }
+    public Cliente ObterClientePorId(int id)
+    {
+        return BancoSql.ListaClientes.FirstOrDefault(c => c.Id == id)!;
     }
+
+    public List<Cliente> Listar()
+    {
+       return BancoSql.ListaClientes.ToList();
+    }
+
+    public void Remover(int id)
+    {
+      Cliente? cliente = BancoSql.ListaClientes.FirstOrDefault(c => c.Id == id);
+      if (cliente != null) BancoSql.ListaClientes.Remove(cliente);
+    }
+    
 }
