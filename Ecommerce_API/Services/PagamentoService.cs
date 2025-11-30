@@ -13,7 +13,12 @@ public class PagamentoService
     {
         _pagamentoRepository = pagamentoRepository;
     }
+    public void ProcessarPagamento(Carrinho carrinho)
+    {
+        decimal total = carrinho.CalcularTotal();
+        _pagamentoRepository.Valor = total;
 
+    }
     public void SalvarPagamento(Pagamento pagamento)
     {
         try
@@ -32,11 +37,11 @@ public class PagamentoService
             _pagamentoRepository.SalvarPagamento(pagamento);
         }
     }
-    public decimal PagamentoViaCartao(decimal valor, int Parcelas, DateTime Vencimento, bool SalvarPagamento)
+    public decimal PagamentoViaCartao(decimal total, int Parcelas, DateTime Vencimento, bool SalvarPagamento)
     {
         IPagamento pagamento = new PagamentoViaCartao
         {
-            Valor = valor,
+            Valor = total,
             Parcelas = Parcelas,
             Vencimento = Vencimento
         };
@@ -77,12 +82,12 @@ public class PagamentoService
 
         }
     }
-    public decimal PagamentoViaPix(decimal desconto, decimal valor, DateTime Vencimento, bool SalvarPagamento) 
+    public decimal PagamentoViaPix(decimal desconto, decimal total, DateTime Vencimento, bool SalvarPagamento) 
     {
         IPagamento pagamento = new PagamentoViaPix
         {
             Desconto = desconto,
-            Valor = valor,
+            Valor = total,
             Vencimento = Vencimento
         };
         try
