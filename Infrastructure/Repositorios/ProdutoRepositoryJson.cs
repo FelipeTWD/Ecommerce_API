@@ -36,7 +36,7 @@ public class ProdutoRepositoryJson : IProdutoRepositoryJson
 
     public void SalvarNoArquivo()
     {
-        // Indented deixa o JSON bonitinho (formatado)
+        // Indentacao para deixa o JSON bonitinho (formatado)
         JsonSerializerOptions options = new JsonSerializerOptions();
         string json = JsonSerializer.Serialize(BancoSql.ListaProdutos, options);
         File.WriteAllText(_caminhoArquivo, json);
