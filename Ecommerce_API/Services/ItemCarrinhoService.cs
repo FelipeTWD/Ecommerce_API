@@ -9,10 +9,10 @@ namespace Ecommerce_API.Services
         {
             try
             {
-                if (dto.Quantidade <0)
+                if (dto.Quantidade <=0)
                     throw new ArgumentException("Quantidade não pode ser negativa.");
                 ItemCarrinho entidade = dto.Mapear();
-                return entidade.ImprimirSubTotal();
+                return entidade.SubTotal;
             }
             catch (ArgumentException ex)
             {

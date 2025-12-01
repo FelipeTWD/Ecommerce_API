@@ -39,4 +39,8 @@ public class ProdutoRepository : IProdutoRepository
             produto.Quantidade = quantidade;
         }
     }
+    public Produto? ObterProdutoPorId(int id)
+    {
+        return BancoSql.ListaProdutos.FirstOrDefault(p => p.Id == id);
+    }
 }

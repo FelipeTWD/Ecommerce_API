@@ -99,4 +99,22 @@ public class ProdutosController : ControllerBase
             return StatusCode(500, $"Erro ao atualizar o estoque: {ex.Message}");
         }
     }
+
+    [HttpGet("ObterProdutoPorId/{id:int}")]
+    public ActionResult<ProdutoDTO> ObterProdutoPorId(int id)
+    {
+        try
+        {
+            ProdutoDTO produtoDTO = _produtosService.ObterProdutoPorId(id);
+            return Ok(produtoDTO);
+        }
+        catch (DomainException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Erro ao obter o produto: {ex.Message}");
+        }
+    }
 }

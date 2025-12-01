@@ -8,6 +8,6 @@ public interface IProdutoRepository
     List<Produto> Listar();
     bool Remover(int id);
     void AtualizarQuantidade(int produtoId, int quantidade);
-
+    Produto? ObterProdutoPorId(int id);
 
 }

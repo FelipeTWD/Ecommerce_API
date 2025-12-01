@@ -22,7 +22,9 @@ public class ClientesService
         {
             if (IsClienteInvalido(cliente))
                 throw new DomainException("Dados do cliente não podem ser nulos.");
-            if (BancoSql.ListaClientes.Any(p => p.Id == cliente.Id) || BancoSql.ListaClientes.Any(p => p.Nome == cliente.Nome))
+            else if (BancoSql.ListaClientes.Any(p => p.Id == cliente.Id))
+                throw new ArgumentException("Esse ID ja esta cadastrado.");
+            else if (BancoSql.ListaClientes.Any(p => p.Nome == cliente.Nome))
                 throw new ArgumentException("Esse cliente ja esta cadastrado.");
             // Chamada ao repositório
             _clienteRepository.Cadastrar(cliente);

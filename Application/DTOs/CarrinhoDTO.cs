@@ -5,19 +5,17 @@ namespace Application.DTOs;
 
 public class CarrinhoDTO
 {
-    public decimal Total { get; set; }
-    public int IdCarrinho { get; set; }
     public int ClienteId { get; set; }
     public List<ItemCarrinhoDTO> ListaItensCarrinho { get; set; } = new();
-
+    public decimal Total { get; set; }
 
 
     public Carrinho Mapear()
     {
         return new Carrinho
         {
-            ClienteId = ClienteId,
-            IdCarrinho = this.IdCarrinho,
+            ClienteId = this.ClienteId,
+            Total = this.Total,
             ListaItensCarrinho = this.ListaItensCarrinho.Select(item => item.Mapear()).ToList()
         };
 

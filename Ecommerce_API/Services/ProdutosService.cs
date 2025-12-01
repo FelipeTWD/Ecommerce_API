@@ -105,6 +105,36 @@ public class ProdutosService
         }
     }
 
+    public ProdutoDTO ObterProdutoPorId(int id)
+    {
+        try
+        {
+            if (id <= 0)
+                throw new ArgumentException("Id do produto inválido.");
+            Produto? produto = _produtoRepository.ObterProdutoPorId(id);
+            if (produto == null)
+                throw new DomainException("Produto não encontrado.");
+            ProdutoDTO produtoDTO = new ProdutoDTO
+            {
+                Id = produto.Id,
+                Nome = produto.Nome,
+                Quantidade = produto.Quantidade
+            };
+            return produtoDTO;
+        }
+        catch (DomainException ex)
+        {
+            throw new DomainException($"{ex.Message}");
+        }
+        catch (ArgumentException ex)
+        {
+            throw new ArgumentException($"{ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"{ex.Message}");
+        }
+    }
     private bool IsProdutoInvalido(Produto produto)
     {
         if (string.IsNullOrWhiteSpace(produto.Nome) || produto.Preco == 0 || produto.Id == 0 || produto.Quantidade == 0)

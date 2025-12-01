@@ -9,8 +9,11 @@ namespace Domain.Interfaces;
 
 public interface ICarrinhoRepository
 {
+    void AdicionarCarrinho(Carrinho carrinho);
     void Remover(int id);
     List<Carrinho> Listar();
-    decimal CalcularTotal(int IdCarrinho);
-
+    void AdicionarItem(int idCarrinho, ItemCarrinho item);
+    void RemoverItem(int idCarrinho, int idItem);
+    void SubtrairQuantidadeItem(int idCarrinho, int idItem, int decrescimo);
+    List<ItemCarrinho> ListarItensCarrinho(int idCarrinho);
 }

@@ -11,10 +11,53 @@ namespace Infrastructure.Repositorios
 {
     public class CarrinhoRepository : ICarrinhoRepository
     {
+        public void AdicionarCarrinho(Carrinho carrinho)
+        {
+            BancoSql.ListaCarrinhos.Add(carrinho);
+        }
         public void Remover(int id)
         {
             Carrinho? carrinho = BancoSql.ListaCarrinhos.FirstOrDefault(c => c.IdCarrinho == id);
             if (carrinho != null) BancoSql.ListaCarrinhos.Remove(carrinho);
+        }
+
+        public void AdicionarItem(int idCarrinho, ItemCarrinho item)
+        {
+            Carrinho? carrinho = BancoSql.ListaCarrinhos.FirstOrDefault(c => c.IdCarrinho == idCarrinho);
+            if (carrinho != null)
+            {
+                carrinho.ListaItensCarrinho.Add(item);
+            }
+        }
+
+        public void RemoverItem(int idCarrinho, int idItem)
+        {
+            Carrinho? carrinho = BancoSql.ListaCarrinhos.FirstOrDefault(c => c.IdCarrinho == idCarrinho);
+            if (carrinho != null)
+            {
+                ItemCarrinho? item = carrinho.ListaItensCarrinho.FirstOrDefault(i => i.IdProduto == idItem);
+                if (item != null)
+                {
+                    carrinho.ListaItensCarrinho.Remove(item);
+                }
+            }
+        }
+
+        public void SubtrairQuantidadeItem(int idCarrinho, int idItem, int decrescimo)
+        {
+            Carrinho? carrinho = BancoSql.ListaCarrinhos.FirstOrDefault(c => c.IdCarrinho == idCarrinho);
+            if (carrinho != null)
+            {
+                ItemCarrinho? item = carrinho.ListaItensCarrinho.FirstOrDefault(i => i.IdItemCarrinho == idItem);
+                if (item != null)
+                {
+                    item.Quantidade -= decrescimo;
+                    if (item.Quantidade < 0)
+                    {
+                        item.Quantidade = 0;
+                    }
+                }
+            }
         }
 
         public List<Carrinho> Listar()
@@ -22,10 +65,14 @@ namespace Infrastructure.Repositorios
             return BancoSql.ListaCarrinhos.ToList();
         }
 
-        public decimal CalcularTotal(int IdCarrinho)
+        public List<ItemCarrinho> ListarItensCarrinho(int idCarrinho)
         {
-            Carrinho? c = BancoSql.ListaCarrinhos.FirstOrDefault(x => x.IdCarrinho == IdCarrinho);
-            return c?.CalcularTotal() ?? 0m;
+            Carrinho? carrinho = BancoSql.ListaCarrinhos.FirstOrDefault(c => c.IdCarrinho == idCarrinho);
+            if (carrinho != null)
+            {
+                return carrinho.ListaItensCarrinho.ToList();
+            }
+            return new List<ItemCarrinho>();
         }
     }
 }

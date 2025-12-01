@@ -6,13 +6,14 @@ public class ItemCarrinho
 	public int IdItemCarrinho { get; set; }
 	public int IdProduto { get; set; }
 	public int Quantidade { get; set; }
-	public decimal Preco { get; set; }
-    // Propriedade calculada para obter o subtotal do item no carrinho
-    public decimal SubTotal => Preco * Quantidade;
-	
-	public decimal ImprimirSubTotal()
+
+	public decimal Preco = 0m;
+
+	public decimal SubTotal = 0;
+
+    /*public decimal ImprimirSubTotal()
 	{
 		return SubTotal;
-    }
+    }*/
 }
 

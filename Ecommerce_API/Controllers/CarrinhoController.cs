@@ -35,9 +35,9 @@ namespace Ecommerce_API.Controllers
             { //Erro precissível de argumento inválido
                 return BadRequest(ex.Message);
             }
-            catch (Exception)
+            catch (Exception ex)
             { //Erro não precissível
-                return StatusCode(500, "Erro interno do servidor.");
+                return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
 
             }
         }
@@ -58,13 +58,14 @@ namespace Ecommerce_API.Controllers
                 return StatusCode(500, "Erro interno do servidor.");
             }
         }
-        [HttpGet("{id}/CalcularTotal")]
-        public ActionResult CalcularTotal(int id)
+
+        [HttpGet("CalcularTotal/{idCarrinho:int}")]
+        public ActionResult CalcularTotal(int idCarrinho)
         {
             try
             {
-                decimal total = _carrinhoService.CalcularTotal(id);
-                return Ok(new { IdCarrinho = id, Total = total });
+                decimal total = _carrinhoService.CalcularTotal(idCarrinho);
+                return Ok($"Total: {total}");
             }
             catch (DomainException ex)
             { //Erro precissível de domínio
@@ -74,6 +75,98 @@ namespace Ecommerce_API.Controllers
             { //Erro não precissível
                 return StatusCode(500, "Erro interno do servidor.");
 
+            }
+        }
+
+        [HttpPost("AdicionarItem/{idCarrinho:int}")]
+        public ActionResult AdicionarItem(int idCarrinho, [FromBody] ItemCarrinho itemCarrinho)
+        {
+            try
+            {
+                _carrinhoService.AdicionarItem(idCarrinho, itemCarrinho);
+                return Ok("Item adicionado ao carrinho com sucesso.");
+            }
+            catch (DomainException ex)
+            { //Erro precissível de domínio
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            { //Erro não precissível
+                return StatusCode(500, "Erro interno do servidor.");
+            }
+        }
+
+        [HttpPost("AdicionarCarrinho")]
+        public ActionResult AdicionarCarrinho([FromBody] Carrinho carrinho)
+        {
+            try
+            {
+                _carrinhoService.AdicionarCarrinho(carrinho);
+                return Ok("Carrinho adicionado com sucesso.");
+            }
+            catch (DomainException ex)
+            { //Erro precissível de domínio
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            { //Erro não precissível
+                return StatusCode(500, "Erro interno do servidor.");
+            }
+        }
+
+        [HttpGet("ListarItensCarrinho/{idCarrinho:int}")]
+        public ActionResult ListarItensCarrinho(int idCarrinho)
+        {
+            try
+            {
+                List<ItemCarrinhoDTO> itensCarrinho = _carrinhoService.ListarItensCarrinho(idCarrinho);
+                if (itensCarrinho == null || itensCarrinho.Count == 0)
+                    return NotFound("Nenhum item encontrado no carrinho.");
+                return Ok(itensCarrinho);
+            }
+            catch (DomainException ex)
+            { //Erro precissível de domínio
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            { //Erro não precissível
+                return StatusCode(500, "Erro interno do servidor.");
+            }
+        }
+
+        [HttpDelete("RemoverItem/{idCarrinho:int}/{idItem:int}")]
+        public ActionResult RemoverItem(int idCarrinho, int idItem)
+        {
+            try
+            {
+                _carrinhoService.RemoverItem(idCarrinho, idItem);
+                return Ok("Item removido do carrinho com sucesso.");
+            }
+            catch (DomainException ex)
+            { //Erro precissível de domínio
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            { //Erro não precissível
+                return StatusCode(500, "Erro interno do servidor.");
+            }
+        }
+
+        [HttpDelete("SubtrairQuantidade/{idCarrinho:int}/{idItem:int}/{quantidade:int}")]
+        public ActionResult SubtrairQuantidadeItem(int idCarrinho, int idItem, int quantidade)
+        {
+            try
+            {
+                _carrinhoService.SubtrairQuantidadeItem(idCarrinho, idItem, quantidade);
+                return Ok("Quantidade do item subtraída com sucesso.");
+            }
+            catch (DomainException ex)
+            { //Erro precissível de domínio
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            { //Erro não precissível
+                return StatusCode(500, "Erro interno do servidor.");
             }
         }
     }
