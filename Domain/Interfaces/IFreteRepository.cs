@@ -2,11 +2,11 @@
 
 namespace Domain.Interfaces;
 
-public interface IFrete
+public interface IFreteRepsitory
 {// Define o método para calcular o frete com base no cliente
     decimal CalcularFrete(Cliente cliente);
 }
-public class RJ : IFrete
+public class RJ : IFreteRepsitory
 {// Implementa o cálculo de frete específico para o Rio de Janeiro
     public decimal CalcularFrete(Cliente cliente)
     {
@@ -15,7 +15,7 @@ public class RJ : IFrete
         return 0m;
     }
 }
-public class SP : IFrete
+public class SP : IFreteRepsitory
 {// Implementa o cálculo de frete específico para São Paulo
     public decimal CalcularFrete(Cliente cliente)
     {
@@ -23,7 +23,7 @@ public class SP : IFrete
         return 20m;
     }
 }
-public class MG : IFrete
+public class MG : IFreteRepsitory
 {// Implementa o cálculo de frete específico para Minas Gerais
     public decimal CalcularFrete(Cliente cliente)
     {

@@ -27,7 +27,7 @@ public class FreteService
 
         var estado = cliente.EnderecoCliente.Estado;
 
-        IFrete frete = estado switch
+        IFreteRepsitory frete = estado switch
         {
             "RJ" => new RJ(),
             "SP" => new SP(),
