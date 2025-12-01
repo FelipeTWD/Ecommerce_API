@@ -23,7 +23,7 @@ public static class Utilitarios
         return Console.ReadLine();
     }
 
-    //Le uma tecla
+    //Ler uma tecla
     public static void PressKey()
     {
         Console.ReadKey();
