@@ -9,51 +9,33 @@ namespace Ecommerce_API.Services;
 public class FreteService
 {
     private readonly IClienteRepository _clienteRepository;
-    private readonly IFrete _freteService;
-    public FreteService(IClienteRepository clienteRepository, IFrete freteService)
+
+    public FreteService(IClienteRepository clienteRepository)
     {
         _clienteRepository = clienteRepository;
-        _freteService = freteService;
     }
 
-    public decimal Calcular(FreteDTO freteDTO)
+    public decimal CalcularFrete(FreteDTO dto)
     {
-        try
-        {// Validar o DTO de entrada
-            if (freteDTO.ListaDeEnderecos == null || freteDTO.ListaDeEnderecos.Count == 0)
-            {
-                throw new ArgumentException("Lista de endereços inválida.");
-            }
-            // Supondo que o estado de destino está em freteDTO.EstadoDestino
-            if (freteDTO.EstadoDestino != "RJ" && freteDTO.EstadoDestino != "SP" && freteDTO.EstadoDestino != "MG")
-            {
-                throw new ArgumentException("Estado de destino inválido.");
-            }
-        }
-        catch (Exception)
-        {
-            throw;
-        }
-        
-        // Mapear o DTO para a entidade Cliente
-        Cliente cliente = freteDTO.Mapear();
-        try
-        {
-            if (cliente == null || cliente.Id <= 0)
-            {
-                throw new ArgumentException("Cliente inválido.");
-            }
-            // Buscar o cliente no repositório
-            cliente = _clienteRepository.ObterClientePorId(cliente.Id);
+        if (dto == null)
+            throw new ArgumentNullException(nameof(dto));
 
-        }
-        catch (ArgumentException ex)
-        {
-            throw new("Erro ao obter o cliente: " + ex.Message);
-        }
+        var cliente = _clienteRepository.ObterClientePorId(dto.ClienteId);
 
-        // Calcular o frete usando o serviço de frete injetado
-        decimal valorFrete = _freteService.CalcularFrete(cliente);
-        return valorFrete;
+        if (cliente == null)
+            throw new Exception("Cliente não encontrado.");
+
+        var estado = cliente.EnderecoCliente.Estado;
+
+        IFrete frete = estado switch
+        {
+            "RJ" => new RJ(),
+            "SP" => new SP(),
+            "MG" => new MG(),
+            _ => throw new Exception("Estado não atendido para frete.")
+        };
+
+        return frete.CalcularFrete(cliente);
     }
 }
+
