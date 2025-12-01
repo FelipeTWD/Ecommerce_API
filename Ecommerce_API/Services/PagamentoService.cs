@@ -6,8 +6,111 @@ using System.Security.Cryptography.X509Certificates;
 using Domain.Helpers;
 namespace Ecommerce_API.Services;
 
-/*public class PagamentoService 
+    public class PagamentoServicè
 {
+}
+
+//{
+//    private readonly ICarrinhoRepository _carrinhoRepository;
+//    private readonly IFrete _freteService;
+//    private readonly IPagamentoRepository _pagamentoRepository; // interface fornecida por você
+//    private readonly IClienteRepository _clienteRepository;
+//    public PagamentoService(
+//        ICarrinhoRepository carrinhoRepository,
+//        IFrete freteService,
+//        IPagamentoRepository pagamentoRepository)
+//    {
+//        _carrinhoRepository = carrinhoRepository;
+//        _freteService = freteService;
+//        _pagamentoRepository = pagamentoRepository;
+//    }
+
+/// <summary>
+/// Realiza o fluxo de pagamento:
+/// - busca carrinho pelo cliente
+/// - obtém totalCompra do carrinho
+/// - calcula frete via IFreteService
+/// - cria entidade Pagamento, confirma e salva via IPagamento (repositório)
+/// - retorna PagamentoDTO preenchido (resumo)
+/// </summary>
+//    public PagamentoDTO RealizarPagamento(PagamentoDTO dto)
+//    {
+//        if (dto == null)
+//            throw new ArgumentNullException(nameof(dto));
+
+//        // 1) Obter carrinho do cliente
+//        var cliente = _clienteRepository.ObterClientePorId(dto.ClienteId);
+//        if (cliente == null)
+//            throw new InvalidOperationException("Cliente não encontrado");
+
+//        // 2) Obter total da compra do carrinho (propriedade calculada no Carrinho)
+//        var totalCompra = _carrinhoRepository.CalcularTotal();
+
+//        // 3) Calcular frete (corrigido: passar Cliente, não int)
+//        var valorFrete = _freteService.CalcularFrete(cliente);
+
+//        // 4) Criar entidade Pagamento
+//        var pagamento = new Pagamento(dto.PedidoId, totalCompra, valorFrete);
+
+//        // 5) Confirmar pagamento (no seu caso o pagamento "só diz que deu certo")
+//        pagamento.ConfirmarPagamento();
+
+//        // 6) Persistir via repositório
+//        _pagamentoRepository.Salvar(pagamento);
+
+//        // 7) Preencher DTO de resposta (resumo)
+//        dto.TotalCompra = totalCompra;
+//        dto.ValorFrete = valorFrete;
+//        dto.TotalAPagar = pagamento.TotalPago;
+//        dto.FoiPago = pagamento.FoiPago;
+//        dto.DataPagamento = pagamento.DataPagamento;
+
+//        return dto;
+//    }
+
+//    // Metodo auxiliar para buscar pagamento por pedido (encapsula IPagamento)
+//    public PagamentoDTO ObterResumoPorPedidoId(int pedidoId)
+//    {
+//        var pagamento = _pagamentoRepository.ObterPorPedidoId(pedidoId);
+//        if (pagamento == null) return null;
+
+//        return new PagamentoDTO
+//        {
+//            PedidoId = pagamento.PedidoId,
+//            TotalCompra = pagamento.TotalCompra,
+//            ValorFrete = pagamento.ValorFrete,
+//            TotalAPagar = pagamento.TotalPago,
+//            FoiPago = pagamento.FoiPago,
+//            DataPagamento = pagamento.DataPagamento
+//        };
+//    }
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*{
+
+
+
+
+
+
+
+
     private readonly IPagamento _pagamentoRepository;
     public PagamentoService(IPagamento pagamentoRepository)
     {

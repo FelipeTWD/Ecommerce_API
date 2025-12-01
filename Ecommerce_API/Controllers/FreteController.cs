@@ -16,17 +16,17 @@ public class FreteController : ControllerBase
         _freteService = freteService;
     }
     [HttpPost("Calculo")]
-    public ActionResult CalcularFrete(FreteDTO freteDTO)
+    public ActionResult CalcularFrete([FromBody] FreteDTO freteDTO)
     {
         try
         {
-            decimal resultado = _freteService.Calcular(freteDTO);
+            decimal resultado = _freteService.CalcularFrete(freteDTO);
             return Ok(resultado);
-
         }
         catch (Exception ex)
         {
             return BadRequest(new { mensagem = ex.Message });
         }
+
     }
 }

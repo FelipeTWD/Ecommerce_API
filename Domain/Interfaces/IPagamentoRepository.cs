@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces;
 
-public interface IPagamento
+public interface IPagamentoRepository 
 {
-    decimal Valor { get; set; }
-    public DateTime Vencimento { get; set; }
+    void Salvar(Pagamento pagamento);
+    Pagamento ObterPorPedidoId(int pedidoId);
 }
 /*public class PagamentoViaCartao : IPagamento
 {

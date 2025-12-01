@@ -20,6 +20,7 @@ if (!string.IsNullOrEmpty(pastaJson))
 builder.Services.AddScoped<ProdutosService>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IProdutoRepositoryJson, ProdutoRepositoryJson>(provider => new ProdutoRepositoryJson(caminhoJson));
+builder.Services.AddScoped<FreteService>();
 
 // Serviço de ItemCarrinho
 builder.Services.AddScoped<ItemCarrinhoService>();
