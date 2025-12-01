@@ -11,9 +11,5 @@ public class ItemCarrinho
 
 	public decimal SubTotal = 0;
 
-    /*public decimal ImprimirSubTotal()
-	{
-		return SubTotal;
-    }*/
 }
 

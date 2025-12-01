@@ -9,7 +9,7 @@ namespace Domain.Entidades;
 public class Pagamento
 {
     public int Id { get; set; }
-    public int PedidoId { get; set; }
+    public int IdPedido { get; set; }
 
     public decimal TotalCompra { get; private set; }
     public decimal ValorFrete { get; private set; }
@@ -20,7 +20,7 @@ public class Pagamento
 
     public Pagamento(int pedidoId, decimal totalCompra, decimal valorFrete)
     {
-        PedidoId = pedidoId;
+        IdPedido = pedidoId;
         TotalCompra = totalCompra;
         ValorFrete = valorFrete;
 
