@@ -3,8 +3,6 @@ using Domain.Entidades;
 using Domain.Helpers;
 using Domain.Interfaces;
 using Infrastructure.Data;
-using Infrastructure.Repositorios;
-using Microsoft.AspNetCore.Mvc;
 
 
 namespace Ecommerce_API.Services;
